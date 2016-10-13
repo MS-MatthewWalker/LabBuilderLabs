@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<labbuilderconfig name="WS2016_Combo_Workshop"
+                  version="1.0">
+  <description>Lab Buildout for Windows Server 2016 MSInternal Workshop</description>
+
+  <settings domainname="Corp.Contoso.COM"
+            vhdparentpath=".\Virtual Hard Disk Templates"
+            dsclibrarypath=".\HVFCDSCResources\" 
+            resourcepath="D:\labsetup\Resources\"
+            LabId="HVFC-"
+            modulepath="D:\labsetup\Modules"/>
+  
+  <resources>
+    <msu name="WMF5.0-WS2012R2-W81"
+         url="https://download.microsoft.com/download/2/C/6/2C6E1B4A-EBE5-48A6-B225-2D2058A9CEFB/Win8.1AndW2K12R2-KB3134758-x64.msu" />
+    <msu name="AMD64-all-windows10.0-kb3192366-x64_af96b0015c04f5dcb186b879f07a31c32cf2e494.msu"
+         url="file:///d:/labsetup/resources/AMD64-all-windows10.0-kb3192366-x64_af96b0015c04f5dcb186b879f07a31c32cf2e494.msu"/>
+    <msu name="AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu"
+         url="file:///d:/labsetup/resources/AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu"/>     
+    <msu name="AMD64-all-windows10.0-kb3176936-x64_795777f8a7f8cd1a4c96ee030848f9f888490555.msu"
+         url="file:///d:/labsetup/resources/AMD64-all-windows10.0-kb3176936-x64_795777f8a7f8cd1a4c96ee030848f9f888490555.msu"/>
+
+  </resources>
+
+  <switches>
+    <switch name="Public1" type="Private" />
+    <switch name="SMB" type="Private" />
+    <switch name="iSCSI" type="Private" />
+    <switch name="LiveMigration" type="Private"  />
+    <switch name="Cluster" type="Private"  />
+  </switches>
+
+  <templatevhds isopath="ISOFiles" 
+                vhdpath="VHDFiles" 
+                prefix="Template-" >
+    <templatevhd name="Windows Server 2016 Datacenter FULL"
+                 iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+                 url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016"
+                 vhd="Windows Server 2016 Datacenter Full.vhdx"
+                 Edition="Windows Server 2016 SERVERDATACENTER"
+                 OSType="Server"
+                 features=""
+                 VHDFormat="VHDx" 
+                 VHDType="Dynamic"
+                 Generation="2" 
+                 vhdsize="40GB" />
+
+    <templatevhd name="Windows Server 2016 Datacenter CORE"
+                 iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+                 url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016"
+                 vhd="Windows Server 2016 Datacenter Core.vhdx"
+                 edition="Windows Server 2016 SERVERDATACENTERCORE"
+                 OSType="Server"
+                 features=""
+                 vhdformat='VHDx' 
+                 vhdtype='Dynamic'
+                 generation="2" 
+                 vhdsize="25GB" />
+
+    <templatevhd name="Nano Server 2016"
+                 iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+                 url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016"
+                 vhd="Nano Server 2016.vhdx"
+                 edition="Windows Server 2016 SERVERDATACENTERNANO"
+                 ostype='Nano'
+                 packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab"
+                 vhdformat='VHDx' 
+                 vhdtype='Dynamic'
+                 generation="2"
+                 vhdsize="25GB" />
+
+    <templatevhd name="Windows Server 2012 R2 Datacenter Core"
+                 iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso"
+                 vhd="Windows Server 2012 R2 Datacenter Core.vhdx"
+                 edition="2012R2CorePatched"
+                 ostype='Server'
+                 packages="WMF5.0-WS2012R2-W81"
+                 vhdformat='VHDx' 
+                 vhdtype='Dynamic' 
+                 generation="2" 
+                 vhdsize="25GB" />
+
+    <templatevhd name="Windows Server 2012 R2 Datacenter Full"
+                 iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso"
+                 vhd="Windows Server 2012 R2 Datacenter Full.vhdx"
+                 edition="2012R2FullPatched"
+                 ostype='Server'
+                 packages="WMF5.0-WS2012R2-W81"
+                 vhdformat='VHDx' 
+                 vhdtype='Dynamic' 
+                 generation="2" 
+                 vhdsize="40GB" />
+
+    <templatevhd name="Windows Server 2012 R2 Datacenter Core Gen1"
+                 iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso"
+                 vhd="Windows Server 2012 R2 Datacenter Core Gen1.vhdx"
+                 edition="2012R2CorePatched"
+                 ostype='Server'
+                 packages="WMF5.0-WS2012R2-W81"
+                 vhdformat='VHDx' 
+                 vhdtype='Dynamic' 
+                 generation="1" 
+                 vhdsize="25GB" />
+  </templatevhds>
+  
+  <templates>
+    <template name="Windows Server 2016 Datacenter FULL"
+              vhd="Windows Server 2016 Datacenter Full.vhdx"
+              sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx"
+              memorystartupbytes="1GB"
+              processorcount="1"
+              generation="2"
+              version="8.0"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              ostype="Server" />
+
+    <template name="Windows Server 2016 Datacenter CORE"
+              vhd="Windows Server 2016 Datacenter Core.vhdx"
+              sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Core.vhdx"
+              memorystartupbytes="1GB"
+              processorcount="1"
+              generation="2"
+              version="8.0"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              ostype="Server" />
+
+    <template name="Nano Server 2016"
+              memorystartupbytes="2GB"
+              processorcount="1"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              generation="2"
+              version="8.0"
+              ostype="Nano"
+              vhd="Nano Server 2016.vhdx"
+              sourcevhd=".\VHDFiles\Template-Nano Server 2016.vhdx"/>
+
+    <template name="2012 R2 Full"
+              memorystartupbytes="2GB"
+              processorcount="1"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              generation="2"
+              version="5.0"
+              ostype="Server"
+              vhd="Windows Server 2012 R2 Datacenter Full.vhdx"
+              sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Full.vhdx"/>
+
+    <template name="2012 R2 Core"
+              memorystartupbytes="2GB"
+              processorcount="1"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              generation="2"
+              version="5.0"
+              ostype="Server"
+              vhd="Windows Server 2012 R2 Datacenter Core.vhdx"
+              sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Core.vhdx"/>
+
+    <template name="2012 R2 Core Gen1"
+              memorystartupbytes="2GB"
+              processorcount="1"
+              administratorpassword="LS1setup!"
+              timezone="Pacific Standard Time" 
+              generation="1"
+              version="5.0"
+              ostype="Server"
+              vhd="Windows Server 2012 R2 Datacenter Core Gen1.vhdx"
+              sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Core Gen1.vhdx"/>
+
+  </templates>
+
+  <vms>  
+
+    <vm name="Virt-Node1"
+        template="Windows Server 2016 Datacenter FULL"
+        computername="Virt-Node1"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorcount="2"
+        memorystartupbytes="4GB"
+        DynamicMemoryEnabled="Y">
+
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+          
+          ServerName = 'DC'
+          ServerTargetName = 'dc-virtcluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.11'
+
+          Disks = @(
+          @{ Name = 'CSVData';
+          Number = '1';
+          DriveLetter = 'T';
+          FSLabel = 'CSVData';          
+          },
+          @{ Name = 'Witness';
+          Number = '2';
+          DriveLetter = 'W';
+          FSLabel = 'Witness';          
+          }
+          )
+
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.11"
+                defaultgateway="10.0.0.255"
+                subnetmask="24"
+                dnsserver="10.0.0.1"/>
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.11"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.18.0.11"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.11"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="iSCSI"
+                 switchname="iSCSI"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.11"
+                subnetmask="24"/>
+        </adapter>
+      </adapters>
+    </vm>
+
+    <vm name="Virt-Node2"
+        template="Windows Server 2016 Datacenter FULL"
+        computername="Virt-Node2"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="4GB"
+        DynamicMemoryEnabled="Y">
+      
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+          
+          ServerName = 'DC'
+          ServerTargetName = 'dc-virtcluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.12'
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.12"
+                defaultgateway="10.0.0.255"
+                subnetmask="24"
+                dnsserver="10.0.0.1"/>
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.12"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.18.0.12"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.12"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="iSCSI"
+                 switchname="iSCSI"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.12"
+                subnetmask="24"/>
+        </adapter>
+      </adapters>
+    </vm>
+
+
+    <vm name="SOFS-Node1"
+        template="2012 R2 Full"
+        computername="SOFS-Node1"
+        usedifferencingbootdisk="Y"
+        processorcount="2"
+        memorystartupbytes="2GB"
+        DynamicMemoryEnabled="Y"
+        Version="5.0"
+        ExposeVirtualizationExtensions="N"
+        >
+
+      <dsc configname="MEMBER_FAILOVERCLUSTER"
+           configfile="HVFC_MEMBER_FAILOVERCLUSTER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+
+          ServerName = 'DC'
+          ServerTargetName = 'dc-sofscluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.21'
+
+          Disks = @(
+          @{ Name = 'CSVData';
+          Number = '1';
+          DriveLetter = 'T';
+          FSLabel = 'CSVData';          
+          },
+          @{ Name = 'Witness';
+          Number = '2';
+          DriveLetter = 'W';
+          FSLabel = 'Witness';          
+          }
+          )
+
+          ClusterName = 'SOFSCluster'
+          ClusterIPAddress = '10.0.0.31'
+          SOFSName = 'SOFSShare'
+
+
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.21"
+                defaultgateway="10.0.0.255"
+                subnetmask="24"
+                dnsserver="10.0.0.1"/>
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.21"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.21"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="iSCSI"
+                 switchname="iSCSI"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.21"
+                subnetmask="24"/>
+        </adapter>
+
+      </adapters>
+
+    </vm>
+
+    <vm name="SOFS-Node2"
+        template="2012 R2 Full"
+        computername="SOFS-Node2"
+        usedifferencingbootdisk="Y"
+        processorCount="2"
+        memorystartupbytes="2GB"
+        DynamicMemoryEnabled="Y"
+        Version="5.0"
+        ExposeVirtualizationExtensions="N"
+        >
+      
+      <dsc configname="MEMBER_FAILOVERCLUSTER"
+           configfile="HVFC_MEMBER_FAILOVERCLUSTER.DSC.ps1">
+        <parameters>
+        
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+
+          ServerName = 'DC'
+          ServerTargetName = 'dc-sofscluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.22'
+
+          JoinClusterName = 'SOFSCluster'
+          JoinClusterIPAddress = '10.0.0.31'
+           
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.22"
+                defaultgateway="10.0.0.255"
+                subnetmask="24"
+                dnsserver="10.0.0.1"/>
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+                 switchname="SMB"
+                 MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.22"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.22"
+                subnetmask="24"/>
+        </adapter>
+        <adapter name="iSCSI"
+                 switchname="iSCSI"
+                 MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.22"
+                subnetmask="24"/>
+        </adapter>
+
+      </adapters>
+    </vm>
+
+
+    <vm name="Compute"
+        template="Windows Server 2016 Datacenter FULL"
+        computername="Compute"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="4">
+      
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+       
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+    </vm>
+
+    <vm name="S2D"
+        template="Nano Server 2016"
+        computername="S2D"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="4"
+        packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab"
+        NanoODJPath="Tools\ODJFiles" >
+
+      <dsc configname="MEMBER_NANO"
+           configfile="MEMBER_NANO.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+          
+          DCName = 'DC'
+
+          RequestFilePath = "C:\Windows\Setup\ODJFiles\"
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+      <DataVHDs>
+        <DataVHD VHD="SSD1.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"/>
+        <DataVHD VHD="SSD2.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"/>
+        <DataVHD VHD="SSD3.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"/>
+        <DataVHD VHD="SSD4.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"/>
+        <DataVHD VHD="HDD1.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD2.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD3.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD4.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD5.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD6.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD7.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD8.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD9.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD10.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD11.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD12.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+                 
+      </DataVHDs>
+
+    </vm>
+
+    <vm name="Shared"
+        template="Windows Server 2016 Datacenter CORE"
+        computername="Shared"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="3">
+      
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+       
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+      <DataVHDs>
+        <DataVHD VHD="d:\labs\Shared\SSD1.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+        <DataVHD VHD="d:\labs\Shared\SSD2.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+        <DataVHD VHD="d:\labs\Shared\SSD3.VHDX"
+                 Size="800GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+        <DataVHD VHD="d:\labs\Shared\HDD1.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD2.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD3.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD4.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD5.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD6.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD7.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD8.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+        <DataVHD VHD="d:\labs\Shared\HDD9.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"
+                 Shared="Y"/> 
+                 
+      </DataVHDs>
+
+    </vm>
+
+    <vm name="2Node"
+        template="Nano Server 2016"
+        computername="2Node"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="2"
+        packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab"
+        NanoODJPath="Tools\ODJFiles" >
+      
+      <dsc configname="MEMBER_NANO"
+           configfile="MEMBER_NANO.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+
+          DCName = 'DC'
+      
+          RequestFilePath = "C:\Windows\Setup\ODJFiles\"
+
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+      <DataVHDs>
+        <DataVHD VHD="HDD1.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD2.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD3.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+        <DataVHD VHD="HDD4.VHDX"
+                 Size="4TB"
+                 Type="Dynamic"/> 
+
+                 
+      </DataVHDs>
+
+    </vm>
+
+    <vm name="Replica-SEA"
+        template="Windows Server 2016 Datacenter CORE"
+        computername="Replica-SEA"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="2">
+      
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+       
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+      <DataVHDs>
+        <DataVHD VHD="d:\labs\Replica-SEA\Data.VHDX"
+                 Size="200GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+        <DataVHD VHD="d:\labs\Replica-SEA\Log.VHDX"
+                 Size="20GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+      </DataVHDs>
+
+    </vm>
+
+    <vm name="Replica-RED"
+        template="Windows Server 2016 Datacenter CORE"
+        computername="Replica-RED"
+        usedifferencingbootdisk="Y"
+        ExposeVirtualizationExtensions="Y"
+        processorCount="2"
+        memorystartupbytes="1GB"
+        DynamicMemoryEnabled="Y"
+        InstanceCount="2">
+      
+      <dsc configname="HVFC_MEMBER_SERVER"
+           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+       
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2"
+                 switchname="Public1"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB"
+             switchname="SMB"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration"
+                 switchname="LiveMigration"
+                 MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster"
+                 switchname="Cluster"
+                 MACAddressSpoofing="On">
+        </adapter>
+      </adapters>
+
+      <DataVHDs>
+        <DataVHD VHD="d:\labs\Replica-RED\Data.VHDX"
+                 Size="200GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+        <DataVHD VHD="d:\labs\Replica-RED\Log.VHDX"
+                 Size="20GB"
+                 Type="Dynamic"
+                 Shared="Y"/>
+      </DataVHDs>
+
+    </vm>
+
+
+  </vms>
+
+</labbuilderconfig>
