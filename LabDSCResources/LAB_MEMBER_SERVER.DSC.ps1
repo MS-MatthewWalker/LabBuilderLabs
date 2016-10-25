@@ -1,27 +1,23 @@
 <#########################################################################################################################################
 DSC Template Configuration File For use by LabBuilder
 .Title
-	MEMBER_FAILOVERCLUSTER
+	MEMBER_FILESERVER
 .Desription
-	Builds a Network failover clustering node.
-.Parameters:    
-		  DomainName = "LABBUILDER.COM"
-		  DomainAdminPassword = "P@ssword!1"
-		  PSDscAllowDomainUser = $True
+	Builds a Server that is joined to a domain and then made into a File Server.
+.Parameters:          
+	DomainName = "LABBUILDER.COM"
+	DomainAdminPassword = "P@ssword!1"
 #########################################################################################################################################>
-Configuration MEMBER_FAILOVERCLUSTER
+
+Configuration LAB_MEMBER_SERVER
 {
-	Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
-	Import-DscResource -ModuleName xActiveDirectory
-	Import-DscResource -ModuleName xComputerManagement
-	Import-DscResource -ModuleName xPSDesiredStateConfiguration
+	Import-DscResource -ModuleName 'PSDesiredStateConfiguration' 
+	Import-DscResource -ModuleName xActiveDirectory 
+	Import-DscResource -ModuleName xComputerManagement 
+	Import-DscResource -ModuleName xStorage  
+	Import-DscResource -ModuleName xNetworking 
 	Import-DscResource -ModuleName ciscsi 
-	Import-DscResource -ModuleName xFailoverCluster 
-	Import-DscResource -ModuleName xStorage
-
-
-
-
+    
 
 	Node $AllNodes.NodeName {
 		# Assemble the Local Admin Credentials
@@ -31,43 +27,24 @@ Configuration MEMBER_FAILOVERCLUSTER
 		If ($Node.DomainAdminPassword) {
 			[PSCredential]$DomainAdminCredential = New-Object System.Management.Automation.PSCredential ("$($Node.DomainName)\Administrator", (ConvertTo-SecureString $Node.DomainAdminPassword -AsPlainText -Force))
 		}
-        
 
-		# Install the RSAT PowerShell Module which is required by the xWaitForResource
+
 		WindowsFeature RSATADPowerShell
 		{ 
 			Ensure = "Present" 
 			Name = "RSAT-AD-PowerShell" 
+			
 		} 
 
-		WindowsFeature FailoverClusteringInstall
-		{ 
-			Ensure = "Present" 
-			Name = "Failover-Clustering" 
-		} 
-
-        WindowsFeature FailoverClusteringPSInstall
+        WaitForAll DC
         {
-            Ensure = "Present" 
-            Name = "RSAT-Clustering-PowerShell" 
-        }
-
-        WindowsFeature FailoverClusteringMgmt
-        {
-            Ensure = "Present" 
-            Name = "RSAT-Clustering-Mgmt" 
+        ResourceName      = '[xADDomain]PrimaryDC'
+        NodeName          = 'DC'
+        RetryIntervalSec  = 15
+        RetryCount        = 60
         }
 
 
-        WindowsFeature FileServerInstall 
-        {
-            Ensure = "Present" 
-            Name = "FS-FileServer" 
-            DependsOn = "[WindowsFeature]FailoverClusteringPSInstall" 
-        }
-
-
-		# Wait for the Domain to be available so we can join it.
 		xWaitForADDomain DscDomainWait
 		{
 			DomainName = $Node.DomainName
@@ -77,85 +54,15 @@ Configuration MEMBER_FAILOVERCLUSTER
 			DependsOn = "[WindowsFeature]RSATADPowerShell" 
 		}
 
-		# Join this Server to the Domain.
 		xComputer JoinDomain 
 		{ 
 			Name          = $Node.NodeName
 			DomainName    = $Node.DomainName
 			Credential    = $DomainAdminCredential 
-			DependsOn = "[xWaitForADDomain]DscDomainWait" 
-		}
+			DependsOn = '[WaitForAll]DC'
+		} 
 
-		# Create Cluster for SMB Shares
-		if ($Node.ClusterName) 
-		{
-		xCluster ensureCreated
-			{
-				Name = $Node.ClusterName
-				StaticIPAddress = $Node.ClusterIPAddress
-				DomainAdministratorCredential = $DomainAdminCredential
-				DependsOn = "[xComputer]JoinDomain"
-			} 
-
-    	}
-	    
-		if ($Node.JoinClusterName) 
-		{
-			xWaitForCluster WaitForCluster
-			{
-				Name = $Node.JoinClusterName
-				RetryIntervalSec = 10
-				RetryCount = 60
-
-				DependsOn = "[xComputer]JoinDomain"
-			}
-
-			xCluster JoinCluster
-			{
-				Name = $Node.JoinClusterName
-				StaticIPAddress = $Node.JoinClusterIPAddress
-				DomainAdministratorCredential = $DomainAdminCredential
-
-				DependsOn = "[xWaitForCluster]waitForCluster"
-			}  
-
-		}
-
-		if ($Node.SOFSName){
-
-		 Script SOFSSetup
-        { 
-				PSDSCRunAsCredential = $DomainAdminCredential
-                SetScript = {
-
-				Write-Verbose -Message ("Add-ClusterScaleOutFileServerRole -Cluster $($using:Node.ClusterName) -Name $($using:Node.SOFSName) will be run")
-                Add-ClusterScaleOutFileServerRole -Cluster $($using:Node.ClusterName) -Name $($using:Node.SOFSName)
-			
-				}
-            GetScript = {
-
-                Return @{
-                    'State' = (@(Get-ClusterGroup | Where-Object { ($_.Name -eq $($using:Node.SOFSName))}));
-
-                }
-			}
-            TestScript =  {
-
-				$State = (Get-ClusterGroup | Where-Object {$_.Name -eq $($using:Node.SOFSName)}).State
-				if ($State -eq 'Online')
-				{
-					Return $True
-				}
-				else
-				{
-					Return $False
-				}
-           }    
-            DependsOn = '[xComputer]JoinDomain'
-        }
-		}
-
-		if ($Node.Disks)
+        if ($Node.Disks)
         {
 
             [int]$Count = 0
@@ -176,8 +83,7 @@ Configuration MEMBER_FAILOVERCLUSTER
 
                 }
             }
-        } # End Disk Format
- 
+        }
         if ($Node.ServerTargetName)
         {
             # Ensure the iSCSI Initiator service is running
@@ -190,7 +96,7 @@ Configuration MEMBER_FAILOVERCLUSTER
 
             WaitForAny WaitForiSCSIServerTarget
             {
-                ResourceName = "[ciSCSIServerTarget]iSCSITarget2"
+                ResourceName = "[ciSCSIServerTarget]iSCSITarget1"
                 NodeName = $Node.ServerName
                 RetryIntervalSec = 30
                 RetryCount = 30
@@ -221,9 +127,7 @@ Configuration MEMBER_FAILOVERCLUSTER
                 Ensure = 'Present'
                 Enabled = 'True'
             }
-
-        } # End iSCSI setup
-
-		 			
+        }
+				
 	}
 }

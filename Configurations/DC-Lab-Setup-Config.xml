@@ -186,8 +186,8 @@
         processorCount="4"
         DynamicMemoryEnabled="Y">
       
-      <dsc configname="HVFC_DC_FORESTPRIMARY"
-           configfile="HVFC_DC_FORESTPRIMARY.DSC.ps1">
+      <dsc configname="LAB_DC_FORESTPRIMARY"
+           configfile="LAB_DC_FORESTPRIMARY.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"

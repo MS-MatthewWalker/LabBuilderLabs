@@ -7,7 +7,7 @@ DSC Template Configuration File For use by LabBuilder
 .Parameters:          
 #########################################################################################################################################>
 
-Configuration STANDALONE_DEFAULT
+Configuration LAB_STANDALONE_DEFAULT
 {
 	Import-DscResource -ModuleName 'PSDesiredStateConfiguration' 
 	Node $AllNodes.NodeName {

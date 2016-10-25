@@ -184,8 +184,8 @@
         memorystartupbytes="4GB"
         DynamicMemoryEnabled="Y">
 
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -261,8 +261,8 @@
         memorystartupbytes="4GB"
         DynamicMemoryEnabled="Y">
       
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -327,8 +327,8 @@
         ExposeVirtualizationExtensions="N"
         >
 
-      <dsc configname="MEMBER_FAILOVERCLUSTER"
-           configfile="HVFC_MEMBER_FAILOVERCLUSTER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_FAILOVERCLUSTER"
+           configfile="LAB_MEMBER_FAILOVERCLUSTER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -406,8 +406,8 @@
         ExposeVirtualizationExtensions="N"
         >
       
-      <dsc configname="MEMBER_FAILOVERCLUSTER"
-           configfile="HVFC_MEMBER_FAILOVERCLUSTER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_FAILOVERCLUSTER"
+           configfile="LAB_MEMBER_FAILOVERCLUSTER.DSC.ps1">
         <parameters>
         
           DomainName = "Corp.Contoso.COM"
@@ -470,8 +470,8 @@
         DynamicMemoryEnabled="Y"
         InstanceCount="4">
       
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -517,8 +517,8 @@
         packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab"
         NanoODJPath="Tools\ODJFiles" >
 
-      <dsc configname="MEMBER_NANO"
-           configfile="MEMBER_NANO.DSC.ps1">
+      <dsc configname="LAB_MEMBER_NANO"
+           configfile="LAB_MEMBER_NANO.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -617,8 +617,8 @@
         DynamicMemoryEnabled="Y"
         InstanceCount="3">
       
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -716,8 +716,8 @@
         packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab"
         NanoODJPath="Tools\ODJFiles" >
       
-      <dsc configname="MEMBER_NANO"
-           configfile="MEMBER_NANO.DSC.ps1">
+      <dsc configname="LAB_MEMBER_NANO"
+           configfile="LAB_MEMBER_NANO.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -781,8 +781,8 @@
         DynamicMemoryEnabled="Y"
         InstanceCount="2">
       
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
@@ -837,8 +837,8 @@
         DynamicMemoryEnabled="Y"
         InstanceCount="2">
       
-      <dsc configname="HVFC_MEMBER_SERVER"
-           configfile="HVFC_MEMBER_SERVER.DSC.ps1">
+      <dsc configname="LAB_MEMBER_SERVER"
+           configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"

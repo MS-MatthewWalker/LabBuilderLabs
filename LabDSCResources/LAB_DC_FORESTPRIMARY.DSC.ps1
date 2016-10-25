@@ -9,7 +9,7 @@ DSC Template Configuration File For use by LabBuilder
     DomainAdminPassword = "P@ssword!1"
 #########################################################################################################################################>
 
-Configuration HVFC_DC_FORESTPRIMARY
+Configuration LAB_DC_FORESTPRIMARY
 {
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration' 
     Import-DscResource -ModuleName xDNSServer 

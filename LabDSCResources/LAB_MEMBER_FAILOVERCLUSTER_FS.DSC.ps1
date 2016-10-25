@@ -16,7 +16,7 @@ DSC Template Configuration File For use by LabBuilder
     InitiatorPortalAddress = '192.168.129.28'
 ###################################################################################################>
 
-Configuration MEMBER_FAILOVERCLUSTER_FS
+Configuration LAB_MEMBER_FAILOVERCLUSTER_FS
 {
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
     Import-DscResource -ModuleName xComputerManagement

@@ -12,7 +12,7 @@ DSC Template Configuration File For use by LabBuilder
     ODJRequestFile = 'C:\ODJRequest.txt'
 ###################################################################################################>
 
-Configuration MEMBER_NANO
+Configuration LAB_MEMBER_NANO
 {
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
     Import-DscResource -ModuleName xComputerManagement

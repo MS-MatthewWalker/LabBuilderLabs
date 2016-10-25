@@ -9,7 +9,7 @@ DSC Template Configuration File For use by LabBuilder
     DomainAdminPassword = "P@ssword!1"
 #########################################################################################################################################>
 
-Configuration MEMBER_WDS
+Configuration LAB_MEMBER_WDS
 {
     Import-DscResource -ModuleName 'PSDesiredStateConfiguration'
     Import-DscResource -ModuleName xActiveDirectory
