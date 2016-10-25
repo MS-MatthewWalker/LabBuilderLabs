@@ -6,10 +6,10 @@
 
   <settings domainname="Corp.Contoso.COM"
             vhdparentpath=".\Virtual Hard Disk Templates"
-            dsclibrarypath=".\HVFCDSCResources\" 
-            resourcepath="D:\labsetup\Resources\"
-            LabId="HVFC-"
-            modulepath="D:\labsetup\Modules"/>
+            dsclibrarypath=".\LabDSCResources\" 
+            resourcepath=".\Resources\"
+            LabId="Lab-"
+            modulepath=".\Modules"/>
   
   <resources>
     <msu name="WMF5.0-WS2012R2-W81"
@@ -202,7 +202,7 @@
           SQLAgtSvcAccount = 'Corp\SQL_Agent'
           SQLAgentUserPass = 'LS1setup!'
 
-          SCVMMInstallPath = "\SCVMM\System Center 2016 Virtual Machine Manager\"
+          SCVMMInstallPath = "\SCVMM\"
           SCVMMSAUser = 'Corp\VMM_SA'
           SCVMMSAPass = 'LS1setup!'
           SCVMMDBServerName = 'DC'
@@ -407,7 +407,7 @@
         <DataVHD VHD="DC-ToolsDISK.VHDX"
                  Size="100GB"
                  Type="Dynamic"
-                 copyfolders="D:\Labsetup\Tools"
+                 copyfolders=".\Tools"
                  partitionstyle="GPT"
                  filesystem="NTFS"
                  filesystemlable="Tools"

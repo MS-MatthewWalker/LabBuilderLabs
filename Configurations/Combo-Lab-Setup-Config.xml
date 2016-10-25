@@ -6,10 +6,10 @@
 
   <settings domainname="Corp.Contoso.COM"
             vhdparentpath=".\Virtual Hard Disk Templates"
-            dsclibrarypath=".\HVFCDSCResources\" 
-            resourcepath="D:\labsetup\Resources\"
-            LabId="HVFC-"
-            modulepath="D:\labsetup\Modules"/>
+            dsclibrarypath=".\LabDSCResources\" 
+            resourcepath=".\Resources\"
+            LabId="Lab-"
+            modulepath=".\Modules"/>
   
   <resources>
     <msu name="WMF5.0-WS2012R2-W81"
@@ -871,11 +871,11 @@
       </adapters>
 
       <DataVHDs>
-        <DataVHD VHD="d:\labs\Replica-RED\Data.VHDX"
+        <DataVHD VHD="Data.VHDX"
                  Size="200GB"
                  Type="Dynamic"
                  Shared="Y"/>
-        <DataVHD VHD="d:\labs\Replica-RED\Log.VHDX"
+        <DataVHD VHD="Log.VHDX"
                  Size="20GB"
                  Type="Dynamic"
                  Shared="Y"/>
