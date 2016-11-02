@@ -6,10 +6,10 @@
 
   <settings domainname="Corp.Contoso.COM"
             vhdparentpath=".\Virtual Hard Disk Templates"
-            dsclibrarypath=".\LabDSCResources\" 
-            resourcepath=".\Resources\"
+            dsclibrarypath="LabDSCResources\" 
+            resourcepath="Resources\"
             LabId="Lab-"
-            modulepath=".\Modules"/>
+            modulepath="Modules"/>
   
   <resources>
     <msu name="WMF5.0-WS2012R2-W81"

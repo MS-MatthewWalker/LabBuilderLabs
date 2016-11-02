@@ -17,16 +17,66 @@ Function Get-ScriptDirectory
 
 $Workdir=Get-ScriptDirectory
 
-
-$StartDateTime = get-date
-Write-host	"Script started at $StartDateTime"
-
 Write-Host "`t Working directory is $Workdir"
 
 $LABfolderDrivePath=$Workdir.Substring(0,3)
 $LABFolder="$LabFolderDrivePath\LABS"
 Write-Host "`t LabFolder is $LabFolder"
 
+$ConfigFiles = @()
+$ConfigFiles += 'DC-Lab-Setup-Config.xml'
+$ConfigFiles += 'Combo-Lab-Setup-Config.xml'
+$DCConfigFile = 'DC-Lab-Setup-Config.xml'
+$LabConfigFile = 'Combo-Lab-Setup-Config.xml'
+
+ForEach ($ConfigFile in $ConfigFiles)
+{
+	[xml]$ConfigXML = Get-Content "$Workdir\Configurations\$ConfigFile"
+
+	[string]$XMLResourcePath = $ConfigXML.labbuilderconfig.settings.resourcepath
+	[string]$XMLModulePath = $ConfigXML.labbuilderconfig.settings.modulepath
+	[string]$XMLDSCPath = $ConfigXML.labbuilderconfig.settings.dsclibrarypath
+
+	   if ($XMLResourcePath) {
+        if (-not [System.IO.Path]::IsPathRooted($XMLResourcePath))
+        {
+            # A relative path was provided in the Resource path so add the actual path of the
+            # folder to it
+            [String] $FullResourcePath = Join-Path `
+                -Path $Workdir `
+                -ChildPath $XMLResourcePath
+
+			$ConfigXML.labbuilderconfig.settings.resourcepath = $FullResourcePath
+        } # if
+    }
+
+	   if ($XMLModulePath) {
+        if (-not [System.IO.Path]::IsPathRooted($XMLModulePath))
+        {
+            # A relative path was provided in the Module path so add the actual path of the
+            # folder to it
+            [String] $FullModulePath = Join-Path `
+                -Path $Workdir `
+                -ChildPath $XMLModulePath
+
+			$ConfigXML.labbuilderconfig.settings.modulepath = $FullModulePath
+        } # if
+    }
+
+	   if ($XMLDSCPath) {
+        if (-not [System.IO.Path]::IsPathRooted($XMLDSCPath))
+        {
+            # A relative path was provided in the DSC path so add the actual path of the
+            # folder to it
+            [String] $FullDSCPath = Join-Path `
+                -Path $Workdir `
+                -ChildPath $XMLDSCPath
+
+			$ConfigXML.labbuilderconfig.settings.dsclibrarypath = $FullDSCPath
+        } # if
+    }
+$ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
+}
 
 #Check if Hyper-V is installed.
 Write-Host "Checking if Hyper-V is installed" -ForegroundColor Cyan
@@ -40,7 +90,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 	Exit
 }
 
-#Check support for shared disks + enable if possible
+#Check support for shared disks + enable if possible - Operating SKU versions are from header files and reported by WMI - 7 = Standard, 8 = DataCenter, 79 Standard Eval, and 80 is DataCenter Eval
 
     Write-Host "Checking for support for shared disks" -ForegroundColor Cyan
     $OS=gwmi win32_operatingsystem
@@ -68,12 +118,12 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 
 #Mount ISO and copy out .Net Cab file for SQL install
 
-$ISOPath = "$Workdir\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+$ISOPath = "$Workdir\Configurations\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
 
 $null = Mount-DiskImage -ImagePath $ISOPath -StorageType ISO -Access Readonly
 
 # Refresh the PS Drive list to make sure the new drive can be detected
-Get-PSDrive -PSProvider FileSystem
+$null = Get-PSDrive -PSProvider FileSystem
 
 $DiskImage = Get-DiskImage -ImagePath $ISOPath
 $Volume = Get-Volume -DiskImage $DiskImage
@@ -89,7 +139,7 @@ $null = Dismount-DiskImage -ImagePath $ISOPath
 
 Copy-Item -Path $Workdir\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Destination $Workdir\Tools\ISOs\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Force
 Import-Module .\LabBuilder.psm1 -Force
-Install-Lab -ConfigPath $Workdir\Configurations\DC-Lab-Setup-Config.xml -labpath $LABfolderDrivePath\labs\ -Verbose 
+Install-Lab -ConfigPath $Workdir\Configurations\$DCConfigFile -labpath $LABfolder -Verbose 
 
 $VMStartupTime = 250 
 Write-host "Configuring DC takes a while"
@@ -117,4 +167,4 @@ $Session = New-PSSession -VMname $DCVM.VMName -Credential $Cred
 Copy-Item -FromSession $Session -Path T:\Tools\ODJFiles -Recurse -Destination $Workdir\Tools\ -Force
 
 Import-Module .\LabBuilder.psm1 -Force
-Install-Lab -ConfigPath $Workdir\Combo-Lab-Setup-Config.xml -labpath $LABfolderDrivePath\labs\ -Verbose 
+Install-Lab -ConfigPath $Workdir\Configurations\$LabConfigFile -labpath $LABfolder -Verbose 
