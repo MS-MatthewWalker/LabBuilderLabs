@@ -51,7 +51,24 @@ Configuration LAB_DC_FORESTPRIMARY
             [PSCredential]$SCVMMSA = New-Object System.Management.Automation.PSCredential ($Node.SCVMMSAUser, (ConvertTo-SecureString $Node.SCVMMSAPass -AsPlainText -Force))
         }
 
+        [Int]$Count=0
+        Foreach ($Feature in $Node.Features) {
+            $Count++
+            
+            If ($Feature.Source)
+                {$Source = $Feature.Source}
 
+            If ($Feature.DependsOn)
+                {$DependsOn = $Feature.DependsOn}
+            
+            WindowsFeature "Feature$Count"
+            {
+            Ensure = $Feature.Ensure 
+            Name = $Feature.Name
+            Source = $Source
+            DependsOn = $DependsOn
+            }
+        }
         WindowsFeature NET
         {
             Ensure = "Present" 

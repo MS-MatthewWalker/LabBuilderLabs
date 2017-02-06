@@ -24,10 +24,10 @@ $LABFolder="$LabFolderDrivePath\LABS"
 Write-Host "`t LabFolder is $LabFolder"
 
 $ConfigFiles = @()
-$ConfigFiles += 'DC-Lab-Setup-Config.xml'
-$ConfigFiles += 'Combo-Lab-Setup-Config.xml'
-$DCConfigFile = 'DC-Lab-Setup-Config.xml'
-$LabConfigFile = 'Combo-Lab-Setup-Config.xml'
+$ConfigFiles += 'SVM-DC-Lab-Setup-Config.xml'
+$ConfigFiles += 'SVM-Lab-Setup-Config.xml'
+$DCConfigFile = 'SVM-DC-Lab-Setup-Config.xml'
+$LabConfigFile = 'SVM-Lab-Setup-Config.xml'
 
 ForEach ($ConfigFile in $ConfigFiles)
 {
@@ -61,6 +61,8 @@ ForEach ($ConfigFile in $ConfigFiles)
 
 			$ConfigXML.labbuilderconfig.settings.modulepath = $FullModulePath
         } # if
+
+	  [string]$LabID = $ConfigXML.labbuilderconfig.settings.LabId
     }
 
 	   if ($XMLDSCPath) {
@@ -119,7 +121,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 
 	}
 
-
+Write-Host "`t`t Copying .Net for SQL and ISO for use in VM"
 #Mount ISO and copy out .Net Cab file for SQL install
 
 $ISOPath = "$Workdir\Configurations\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
@@ -134,14 +136,16 @@ $Volume = Get-Volume -DiskImage $DiskImage
         
 [String] $DriveLetter = $Volume.DriveLetter
 [String] $ISODrive = "$([string]$DriveLetter):"
+ 
+[String] $ToolsPath = "$Workdir\Tools"
 
-Copy-Item -Path $ISODrive\Sources\SXS\microsoft-windows-netfx3-ondemand-package.cab -Destination $Workdir\Tools\Files\microsoft-windows-netfx3-ondemand-package.cab -Force
+Copy-Item -Path $ISODrive\Sources\SXS\microsoft-windows-netfx3-ondemand-package.cab -Destination $ToolsPath\Files\microsoft-windows-netfx3-ondemand-package.cab -Force
 
 $null = Dismount-DiskImage -ImagePath $ISOPath
 
 # Now Copy the Windows Server ISO file
 
-Copy-Item -Path $ISOPath -Destination $Workdir\Tools\ISOs\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Force
+Copy-Item -Path $ISOPath -Destination $ToolsPath\ISOs\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Force
 Import-Module .\LabBuilder.psm1 -Force
 Install-Lab -ConfigPath $Workdir\Configurations\$DCConfigFile -labpath $LABfolder -Verbose -Offline
 
@@ -150,7 +154,7 @@ Write-host "Configuring DC takes a while"
 Write-host "Initial configuration in progress. Sleeping $VMStartupTime seconds"
 Start-Sleep $VMStartupTime
 
-$DCVM = Get-VM -Name Lab-DC
+$DCVM = Get-VM -Name "$LabId*"
 
 [PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ('Corp\Administrator', (ConvertTo-SecureString 'LS1setup!' -AsPlainText -Force))
 
@@ -167,8 +171,6 @@ do{
 }until ($test.Status -eq 'Success' -and $test.rebootrequested -eq $false)
 $test
 
-$Session = New-PSSession -VMname $DCVM.VMName -Credential $Cred
-Copy-Item -FromSession $Session -Path T:\Tools\ODJFiles -Recurse -Destination $Workdir\Tools\ -Force
 
 Import-Module .\LabBuilder.psm1 -Force
 Install-Lab -ConfigPath $Workdir\Configurations\$LabConfigFile -labpath $LABfolder -Verbose -Offline

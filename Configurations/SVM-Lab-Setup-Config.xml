@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<labbuilderconfig name="DC-Config-for-Labs" version="1.0">
+  <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
+  <settings domainname="Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath="D:\LabSetup\LabDSCResources" resourcepath="D:\LabSetup\Resources" LabId="Lab3_" modulepath="D:\LabSetup\Modules" />
+  <resources>
+    <msu name="AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" url="file:///d:/labsetup/resources/AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" />
+  </resources>
+  <switches>
+    <switch name="Public" type="Private" />
+  </switches>
+  <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Nano Server 2016" iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Nano Server 2016.vhdx" edition="Windows Server 2016 SERVERDATACENTERNANO" ostype="Nano" packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab,AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+  </templatevhds>
+  <templates>
+    <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="Password1" timezone="Pacific Standard Time" ostype="Server" />
+  </templates>
+  <vms>
+    <vm name="SHVMS2" template="Windows Server 2016 Datacenter FULL" computername="LAB3_SHVMS2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" memorystartupbytes="6GB" processorCount="4" DynamicMemoryEnabled="N">
+      <dsc configname="LAB_DC_FORESTPRIMARY" configfile="LAB_DC_FORESTPRIMARY.DSC.ps1">
+        <parameters>
+          DomainName = "Contoso.COM"
+          DomainAdminPassword = "Password1"
+          
+          SQLSourcePath = 'T:\Tools'
+          SQLSourceFolder = 'SQL'
+          SQLInstanceName = 'MSSQLServer'
+          SQLFeatures = 'SQLENGINE,SSMS,ADV_SSMS'
+          SQLSAUser = 'Contoso\SQL_SA'
+          SQLSAUserPass = 'Password1'
+          SQLSysAdminAccounts = 'Contoso\Domain Admins'
+          SQLAgtSvcAccount = 'Contoso\SQL_Agent'
+          SQLAgentUserPass = 'Password1'
+
+          SCVMMInstallPath = "\SCVMM\"
+          SCVMMSAUser = 'Contoso\VMM_SA'
+          SCVMMSAPass = 'Password1'
+          SCVMMDBServerName = 'DC'
+
+          ADUsers = @(
+          @{ Name = 'WKSAdmin';
+          Cred = 'Password1';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          },
+          @{ Name = 'SQL_Agent';
+          Cred = 'Password1';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          },
+          @{ Name = 'LABAdmin';
+          Cred = 'Password1';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          },
+          @{ Name = 'SQL_SA';
+          Cred = 'Password1';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          },
+          @{ Name = 'VMM_SA';
+          Cred = 'Password1';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          }
+          )
+
+          ADOUs = @(
+          @{ Name = 'Workshop';
+          Path = 'DC=contoso,DC=com';
+          Description = 'Workshop OU';
+          },
+          @{ Name = 'Users';
+          Path = 'OU=Workshop,DC=contoso,DC=com';
+          Description = 'Users OU for Workshop';
+          },
+          @{ Name = 'Servers';
+          Path = 'OU=Workshop,DC=contoso,DC=com';
+          Description = 'Servers OU for Workshop';
+          }
+          )
+
+
+          Scopes = @(
+          @{ Name = 'Public';
+          Start = '192.168.100.100';
+          End = '192.168.100.149';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          }
+          )
+
+          ScopeOptions = @(
+          @{ ScopeID = '192.168.100.0';
+          DNServerIPAddress = @('192.168.100.2');
+          Router = '192.168.100.255';
+          AddressFamily = 'IPv4'
+          }
+          )
+          
+
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
+          <ipv4 address="192.168.100.2" defaultgateway="192.168.100.255" prefixlength="24" dnsserver="192.168.100.2" />
+        </adapter>
+      </adapters>
+      <DataVHDs>
+        <DataVHD VHD="DC-ToolsDISK.VHDX" Size="100GB" Type="Dynamic" copyfolders=".\Tools" partitionstyle="GPT" filesystem="NTFS" filesystemlable="Tools" />
+        <DataVHD VHD="iSCSIDisk.VHDX" Size="500GB" Type="Dynamic" />
+      </DataVHDs>
+    </vm>
+  </vms>
+</labbuilderconfig>

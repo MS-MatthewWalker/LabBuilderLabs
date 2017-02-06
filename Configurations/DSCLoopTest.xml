@@ -57,6 +57,17 @@
           }
           )
 
+          Features = @(
+          @{ Name = 'RSAT-Clustering-MGMT';
+          Ensure = 'Present'          
+          },
+          @{ Name = 'NET-Framework-Core';
+          Ensure = 'Present';
+          Source = 't:\tools\files';
+          DependsOn = '[xDisk]ToolsDrive';          
+          }
+          )
+
           
         </parameters>
       </dsc>
