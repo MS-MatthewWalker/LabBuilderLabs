@@ -1,9 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <labbuilderconfig name="DC-Config-for-Labs" version="1.0">
   <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
-  <settings domainname="Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath="D:\LabSetup\LabDSCResources" resourcepath="D:\LabSetup\Resources" LabId="Lab3_" modulepath="D:\LabSetup\Modules" />
+  <settings domainname="Contoso.COM"
+            vhdparentpath=".\Virtual Hard Disk Templates"
+            dsclibrarypath=".\LabDSCResources"
+            resourcepath=".\Resources"
+            LabId="Lab3_"
+            modulepath=".\Modules" 
+            />
+            
   <resources>
-    <msu name="AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" url="file:///d:/labsetup/resources/AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" />
+    <msu name="AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" url="ResFolder/AMD64-all-windows10.0-kb4010672-x64_e12a6da8744518197757d978764b6275f9508692.msu" />
   </resources>
   <switches>
     <switch name="Public" type="Private" />
@@ -35,7 +42,7 @@
           SCVMMInstallPath = "\SCVMM\"
           SCVMMSAUser = 'Contoso\VMM_SA'
           SCVMMSAPass = 'Password1'
-          SCVMMDBServerName = 'DC'
+          SCVMMDBServerName = 'LAB3_SHVMS2'
 
           ADUsers = @(
           @{ Name = 'WKSAdmin';

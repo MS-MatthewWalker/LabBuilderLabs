@@ -15,6 +15,8 @@ Function Get-ScriptDirectory
 
 ##########################################################################################
 
+$ISOName = "14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+
 $Workdir=Get-ScriptDirectory
 
 Write-Host "`t Working directory is $Workdir"
@@ -124,7 +126,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 Write-Host "`t`t Copying .Net for SQL and ISO for use in VM"
 #Mount ISO and copy out .Net Cab file for SQL install
 
-$ISOPath = "$Workdir\Configurations\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+$ISOPath = "$Workdir\Configurations\ISOFiles\$ISOName"
 
 $null = Mount-DiskImage -ImagePath $ISOPath -StorageType ISO -Access Readonly
 
@@ -145,7 +147,7 @@ $null = Dismount-DiskImage -ImagePath $ISOPath
 
 # Now Copy the Windows Server ISO file
 
-Copy-Item -Path $ISOPath -Destination $ToolsPath\ISOs\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Force
+Copy-Item -Path $ISOPath -Destination $ToolsPath\ISOs\$ISOName -Force
 Import-Module .\LabBuilder.psm1 -Force
 Install-Lab -ConfigPath $Workdir\Configurations\$DCConfigFile -labpath $LABfolder -Verbose -Offline
 
@@ -156,7 +158,7 @@ Start-Sleep $VMStartupTime
 
 $DCVM = Get-VM -Name "$LabId*"
 
-[PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ('Corp\Administrator', (ConvertTo-SecureString 'LS1setup!' -AsPlainText -Force))
+[PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ('Contoso\Administrator', (ConvertTo-SecureString 'Password1' -AsPlainText -Force))
 
 do{
 	$test=Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Get-DscConfigurationStatus} -Credential $cred -ErrorAction SilentlyContinue

@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<labbuilderconfig name="DC-Config-for-Labs" version="1.0">
+  <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
+  <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources" resourcepath=".\Resources" LabId="Lab-" modulepath=".\Modules" />
+  <resources>
+    <msu name="WMF5.0-WS2012R2-W81" url="https://download.microsoft.com/download/2/C/6/2C6E1B4A-EBE5-48A6-B225-2D2058A9CEFB/Win8.1AndW2K12R2-KB3134758-x64.msu" />
+    <msu name="AMD64-all-windows10.0-kb3192366-x64_af96b0015c04f5dcb186b879f07a31c32cf2e494.msu" url="ResFolder/AMD64-all-windows10.0-kb3192366-x64_af96b0015c04f5dcb186b879f07a31c32cf2e494.msu" />
+    <msu name="AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu" url="ResFolder/AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu" />
+    <msu name="AMD64-all-windows10.0-kb3176936-x64_795777f8a7f8cd1a4c96ee030848f9f888490555.msu" url="ResFolder/AMD64-all-windows10.0-kb3176936-x64_795777f8a7f8cd1a4c96ee030848f9f888490555.msu" />
+  </resources>
+  <switches>
+    <switch name="Public1" type="Private" />
+    <switch name="SMB" type="Private" />
+    <switch name="iSCSI" type="Private" />
+    <switch name="LiveMigration" type="Private" />
+    <switch name="Cluster" type="Private" />
+  </switches>
+  <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu,AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu,AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Nano Server 2016" iso="14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Nano Server 2016.vhdx" edition="Windows Server 2016 SERVERDATACENTERNANO" ostype="Nano" packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab,AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu,AMD64-all-windows10.0-kb3176936-x64_5cff7cd74d68a8c7f07711b800008888b0fa8e81.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Windows Server 2012 R2 Datacenter Core" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" vhd="Windows Server 2012 R2 Datacenter Core.vhdx" edition="2012R2CorePatched" ostype="Server" packages="WMF5.0-WS2012R2-W81" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Windows Server 2012 R2 Datacenter Full" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2" vhd="Windows Server 2012 R2 Datacenter Full.vhdx" edition="2012R2FullPatched" ostype="Server" packages="WMF5.0-WS2012R2-W81" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2012 R2 Datacenter Core Gen1" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" vhd="Windows Server 2012 R2 Datacenter Core Gen1.vhdx" edition="2012R2CorePatched" ostype="Server" packages="WMF5.0-WS2012R2-W81" vhdformat="VHDx" vhdtype="Dynamic" generation="1" vhdsize="25GB" />
+  </templatevhds>
+  <templates>
+    <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
+    <template name="Windows Server 2016 Datacenter CORE" vhd="Windows Server 2016 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Core.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
+    <template name="Nano Server 2016" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="8.0" ostype="Nano" vhd="Nano Server 2016.vhdx" sourcevhd=".\VHDFiles\Template-Nano Server 2016.vhdx" />
+    <template name="2012 R2 Full" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="5.0" ostype="Server" vhd="Windows Server 2012 R2 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Full.vhdx" />
+    <template name="2012 R2 Core" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="5.0" ostype="Server" vhd="Windows Server 2012 R2 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Core.vhdx" />
+    <template name="2012 R2 Core Gen1" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="1" version="5.0" ostype="Server" vhd="Windows Server 2012 R2 Datacenter Core Gen1.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Core Gen1.vhdx" />
+  </templates>
+  <vms>
+    <vm name="DC" template="Windows Server 2016 Datacenter FULL" computername="DC" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" memorystartupbytes="4GB" processorCount="4" DynamicMemoryEnabled="Y">
+      <dsc configname="LAB_DC_FORESTPRIMARY" configfile="LAB_DC_FORESTPRIMARY.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          
+          SQLSourcePath = 'T:\Tools'
+          SQLSourceFolder = 'SQL'
+          SQLInstanceName = 'MSSQLServer'
+          SQLFeatures = 'SQLENGINE,SSMS,ADV_SSMS'
+          SQLSAUser = 'Corp\SQL_SA'
+          SQLSAUserPass = 'LS1setup!'
+          SQLSysAdminAccounts = 'Corp\Domain Admins'
+          SQLAgtSvcAccount = 'Corp\SQL_Agent'
+          SQLAgentUserPass = 'LS1setup!'
+
+          SCVMMInstallPath = "\SCVMM\"
+          SCVMMSAUser = 'Corp\VMM_SA'
+          SCVMMSAPass = 'LS1setup!'
+          SCVMMDBServerName = 'DC'
+
+          ADUsers = @(
+          @{ Name = 'WKSAdmin';
+          Cred = 'LS1setup!';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com';
+          },
+          @{ Name = 'SQL_Agent';
+          Cred = 'LS1setup!';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com';
+          },
+          @{ Name = 'LABAdmin';
+          Cred = 'LS1setup!';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com';
+          },
+          @{ Name = 'SQL_SA';
+          Cred = 'LS1setup!';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com';
+          },
+          @{ Name = 'VMM_SA';
+          Cred = 'LS1setup!';
+          Description = 'Workshop Admin Account';
+          OUPath = 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com';
+          }
+          )
+
+          NanoServers = @(
+          @{ ComputerName = '2Node1';
+             FilePath = 'T:\Tools\ODJFiles\';
+          },
+          @{ ComputerName = '2Node2';
+             FilePath = 'T:\Tools\ODJFiles\';
+          },
+          @{ ComputerName = 'S2D1';
+             FilePath = 'T:\Tools\ODJFiles\';
+          },
+          @{ ComputerName = 'S2D2';
+             FilePath = 'T:\Tools\ODJFiles\';
+          },
+          @{ ComputerName = 'S2D3';
+             FilePath = 'T:\Tools\ODJFiles\';
+          },
+          @{ ComputerName = 'S2D4';
+             FilePath = 'T:\Tools\ODJFiles\';
+          }
+          )
+
+          ADOUs = @(
+          @{ Name = 'Workshop';
+          Path = 'DC=corp,DC=contoso,DC=com';
+          Description = 'Workshop OU';
+          },
+          @{ Name = 'Users';
+          Path = 'OU=Workshop,DC=corp,DC=contoso,DC=com';
+          Description = 'Users OU for Workshop';
+          },
+          @{ Name = 'Servers';
+          Path = 'OU=Workshop,DC=corp,DC=contoso,DC=com';
+          Description = 'Servers OU for Workshop';
+          }
+          )
+
+
+          Scopes = @(
+          @{ Name = 'Public';
+          Start = '10.0.0.100';
+          End = '10.0.0.254';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          },
+          @{ Name = 'Cluster';
+          Start = '172.16.0.100';
+          End = '172.16.0.254';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          },
+          @{ Name = 'SMB';
+          Start = '192.168.0.100';
+          End = '192.168.0.254';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          },
+          @{ Name = 'LiveMigration';
+          Start = '172.18.0.100';
+          End = '172.18.0.254';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          },
+          @{ Name = 'iSCSI';
+          Start = '172.17.0.100';
+          End = '172.17.0.254';
+          SubnetMask = '255.255.255.0';
+          AddressFamily = 'IPv4'
+          }
+          )
+
+          ScopeOptions = @(
+          @{ ScopeID = '10.0.0.0';
+          DNServerIPAddress = @('10.0.0.1','10.0.0.2');
+          Router = '10.0.0.255';
+          AddressFamily = 'IPv4'
+          }
+          )
+          
+          iSCSIDisks = @(
+          @{ Path = 'I:\iSCSIVirtualDisks\VirtWitnessDisk.VHDX';
+          DiskType = 'Dynamic';
+          SizeBytes = 1GB;
+          Description = 'Witness Disk for Virt-Node1 and Virt-Node2 cluster'
+          },
+          @{ Path = 'I:\iSCSIVirtualDisks\VirtCSVDisk.VHDX';
+          DiskType = 'Dynamic';
+          SizeBytes = 100GB;
+          Description = 'CSV Disk for Virt-Node1 and Virt-Node2 cluster'
+          }
+          @{ Path = 'I:\iSCSIVirtualDisks\SOFSWitnessDisk.VHDX';
+          DiskType = 'Dynamic';
+          SizeBytes = 1GB;
+          Description = 'Witness Disk for SOFS-Node1 and SOFS-Node2 cluster'
+          },
+          @{ Path = 'I:\iSCSIVirtualDisks\SOFSCSVDisk.VHDX';
+          DiskType = 'Dynamic';
+          SizeBytes = 100GB;
+          Description = 'CSV Disk for SOFS-Node1 and SOFS-Node2 cluster'
+          }
+          )
+          
+          iSCSITargets = @(
+          @{ TargetName = 'VirtCluster';
+          InitiatorIDs = @('iqn:iqn.1991-05.com.microsoft:Virt-Node1.corp.contoso.com'
+                           'iqn:iqn.1991-05.com.microsoft:Virt-Node2.corp.contoso.com'
+                           'iqn:iqn.1991-05.com.microsoft:Virt-Node1'
+                           'iqn:iqn.1991-05.com.microsoft:Virt-Node2');
+          Paths = @('I:\iSCSIVirtualDisks\VirtCSVDisk.VHDX'
+                    'I:\iSCSIVirtualDisks\VirtWitnessDisk.VHDX');
+          Description = 'Disks for Virt-Node1 and Virt-Node2 cluster';
+          DependsOn = '[ciSCSIVirtualDisk]iSCSIDisk2'
+          }
+
+          @{ TargetName = 'SOFSCluster';
+          InitiatorIDs = @('iqn:iqn.1991-05.com.microsoft:SOFS-Node1.corp.contoso.com'
+                           'iqn:iqn.1991-05.com.microsoft:SOFS-Node2.corp.contoso.com'
+                           'iqn:iqn.1991-05.com.microsoft:SOFS-Node1'
+                           'iqn:iqn.1991-05.com.microsoft:SOFS-Node2');
+          Paths = @('I:\iSCSIVirtualDisks\SOFSCSVDisk.VHDX'
+                    'I:\iSCSIVirtualDisks\SOFSWitnessDisk.VHDX');
+          Description = 'Disks for SOFS-Node1 and SOFS-Node2 cluster';
+          DependsOn = '[ciSCSIVirtualDisk]iSCSIDisk2'
+          }
+          )
+          
+
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.1" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.2" PrefixLength="24" dnsserver="10.0.0.1" />
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.1" PrefixLength="24" />
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+          <ipv4 address="172.18.0.1" PrefixLength="24" />
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.1" PrefixLength="24" />
+        </adapter>
+        <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.1" PrefixLength="24" />
+        </adapter>
+      </adapters>
+      <DataVHDs>
+        <DataVHD VHD="DC-ToolsDISK.VHDX" Size="100GB" Type="Dynamic" copyfolders=".\Tools" partitionstyle="GPT" filesystem="NTFS" filesystemlable="Tools" />
+        <DataVHD VHD="iSCSIDisk.VHDX" Size="500GB" Type="Dynamic" />
+      </DataVHDs>
+    </vm>
+  </vms>
+</labbuilderconfig>

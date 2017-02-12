@@ -1,11 +1,44 @@
-# Verify Running as Admin
-$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
-If (!( $isAdmin )) {
-	Write-Host "-- Restarting as Administrator" -ForegroundColor Cyan ; Sleep -Seconds 1
-	Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs 
-	exit
-}
 
+# Code from Ben Armstrong https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/ 
+# Get the ID and security principal of the current user account
+$myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
+$myWindowsPrincipal=new-object System.Security.Principal.WindowsPrincipal($myWindowsID)
+ 
+# Get the security principal for the Administrator role
+$adminRole=[System.Security.Principal.WindowsBuiltInRole]::Administrator
+ 
+# Check to see if we are currently running "as Administrator"
+if ($myWindowsPrincipal.IsInRole($adminRole))
+   {
+   # We are running "as Administrator" - so change the title and background color to indicate this
+   $Host.UI.RawUI.WindowTitle = $myInvocation.MyCommand.Definition + "(Elevated)"
+   $Host.UI.RawUI.BackgroundColor = "DarkBlue"
+   clear-host
+   }
+else
+   {
+   # We are not running "as Administrator" - so relaunch as administrator
+   
+   # Create a new process object that starts PowerShell
+   $newProcess = new-object System.Diagnostics.ProcessStartInfo "PowerShell";
+   
+   # Specify the current script path and name as a parameter
+   $newProcess.Arguments = $myInvocation.MyCommand.Definition, "$(Get-Location)";
+   
+   # Indicate that the process should be elevated
+   $newProcess.Verb = "runas";
+   
+   # Start the new process
+   [System.Diagnostics.Process]::Start($newProcess);
+   
+   # Exit from the current, unelevated, process
+   exit
+   }
+ 
+# Run your code that needs to be elevated here
+Set-Location ([System.Environment]::GetCommandLineArgs()[2]);
+Write-Host -NoNewLine "Press any key to continue..."
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 ##########################################################################################
 
 Function Get-ScriptDirectory
@@ -15,19 +48,128 @@ Function Get-ScriptDirectory
 
 ##########################################################################################
 
+function ShowMenu 
+
+{
+ [CmdletBinding()]
+    [Alias()]
+    [OutputType([String])]
+    Param
+    (
+        # Title for Selection box
+        [Parameter(Mandatory=$true, Position=0)]
+        [String]$Title,
+
+        # Informational Title 
+        [Parameter(Mandatory=$true,Position=1)]
+        [String]$Message,
+
+        # Source of choices to import to Selction box.
+        [Parameter(Mandatory=$true,Position=2)]
+        [String[]]$ListSource
+    )
+    
+
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
+[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
+
+$objForm = New-Object System.Windows.Forms.Form 
+$objForm.Text = $Title
+$objForm.Size = New-Object System.Drawing.Size(500,300) 
+$objForm.StartPosition = "CenterScreen"
+
+$objForm.KeyPreview = $True
+$objForm.Add_KeyDown({if ($_.KeyCode -eq "Enter") 
+    {$x=$objListBox.SelectedItem;$objForm.Close()}})
+$objForm.Add_KeyDown({if ($_.KeyCode -eq "Escape") 
+    {$objForm.Close()}})
+
+$CancelButton = New-Object System.Windows.Forms.Button
+$CancelButton.Location = New-Object System.Drawing.Size(250,220)
+$CancelButton.Size = New-Object System.Drawing.Size(75,23)
+$CancelButton.Text = "Cancel"
+$CancelButton.Add_Click({$objForm.Close()})
+$objForm.Controls.Add($CancelButton)
+
+$OKButton = New-Object System.Windows.Forms.Button
+$OKButton.Location = New-Object System.Drawing.Size(175,220)
+$OKButton.Size = New-Object System.Drawing.Size(75,23)
+$OKButton.Text = "OK"
+$OKButton.Add_Click({$objListBox.SelectedItem;$objForm.Close()})
+$objForm.Controls.Add($OKButton)
+
+$objLabel = New-Object System.Windows.Forms.Label
+$objLabel.Location = New-Object System.Drawing.Size(10,20) 
+$objLabel.Size = New-Object System.Drawing.Size(400,20) 
+$objLabel.Text = $message
+$objForm.Controls.Add($objLabel) 
+
+$objListBox = New-Object System.Windows.Forms.ListBox 
+$objListBox.Location = New-Object System.Drawing.Size(10,40) 
+$objListBox.Size = New-Object System.Drawing.Size(400,20) 
+$objListBox.Height = 175
+
+$ListSource | ForEach-Object {[void] $objListBox.Items.Add($_)}
+
+$objForm.Controls.Add($objListBox) 
+
+$objForm.Topmost = $True
+
+$objForm.Add_Shown({$objForm.Activate()})
+[void] $objForm.ShowDialog()
+
+$selected = $objListBox.Selecteditem
+
+Return $selected
+    
+} 
+##########################################################################################
+
+
 $Workdir=Get-ScriptDirectory
 
 Write-Host "`t Working directory is $Workdir"
 
-$LABfolderDrivePath=$Workdir.Substring(0,3)
-$LABFolder="$LabFolderDrivePath\LABS"
-Write-Host "`t LabFolder is $LabFolder"
+# Get the Configuration 
+[xml]$LabsXML = Get-Content ".\Configurations\configurations.xml"
+$ChooseLabs = @()
+$AvailableLabs = @()
+    $AvailableLabs = $LabsXML.Configurations.Configuration
+    foreach ($AvailableLab in $AvailableLabs)
+		{$ChooseLabs += $AvailableLab.Name }
+
+$Configuration = ShowMenu -Title "Choose Configuration" -Message "Choose the appropriate configuration for the lab you want to build" -ListSource $ChooseLabs
 
 $ConfigFiles = @()
-$ConfigFiles += 'DC-Lab-Setup-Config.xml'
-$ConfigFiles += 'Combo-Lab-Setup-Config.xml'
-$DCConfigFile = 'DC-Lab-Setup-Config.xml'
-$LabConfigFile = 'Combo-Lab-Setup-Config.xml'
+foreach ($AvailableLab in $AvailableLabs)
+	{if ($Configuration -eq $Availablelab.Name)
+		{ 
+			$ConfigFiles += $AvailableLab.LabConfigFile
+			$LabConfigFile = $AvailableLab.LabConfigFile
+			if ($Availablelab.HasDC -eq "Yes")
+				{
+					$ConfigFiles += $AvailableLab.DCConfigurationFile
+					$DCConfigFile = $AvailableLab.DCConfigurationFile
+				}
+		} 
+	}
+
+
+# Set Variables for Config Files 
+
+
+$LABfolderDrivePath=$Workdir.Substring(0,3)
+$LABFolder=$LabFolderDrivePath + "LABS"
+
+$LabPath = Read-Host "Please provide path to setup VMs (Default is $LABFolder)"
+
+if ($LabPath)
+	{
+		Write-Host "You specified path $LabPath"
+		$LabFolder = $LabPath
+	}
+
+Write-Host "`t LabFolder is $LabFolder"
 
 ForEach ($ConfigFile in $ConfigFiles)
 {
@@ -36,6 +178,8 @@ ForEach ($ConfigFile in $ConfigFiles)
 	[string]$XMLResourcePath = $ConfigXML.labbuilderconfig.settings.resourcepath
 	[string]$XMLModulePath = $ConfigXML.labbuilderconfig.settings.modulepath
 	[string]$XMLDSCPath = $ConfigXML.labbuilderconfig.settings.dsclibrarypath
+	[string]$XMLVHDParentPath = $ConfigXML.labbuildconfig.settings.vhdparentpath
+	$Resources = $ConfigXML.labbuildconfig.resources
 
 	   if ($XMLResourcePath) {
         if (-not [System.IO.Path]::IsPathRooted($XMLResourcePath))
@@ -75,6 +219,31 @@ ForEach ($ConfigFile in $ConfigFiles)
 			$ConfigXML.labbuilderconfig.settings.dsclibrarypath = $FullDSCPath
         } # if
     }
+
+	   if ($XMLVHDParentPath) {
+        if (-not [System.IO.Path]::IsPathRooted($XMLVHDParentPath))
+        {
+            # A relative path was provided in the VHD Parent path so add the actual path of the
+            # folder to it
+            [String] $FullVHDParentPath = Join-Path `
+                -Path $Workdir `
+                -ChildPath $XMLVHDParentPath
+
+			$ConfigXML.labbuilderconfig.settings.vhdparentpath = $FullVHDParentPath
+        } # if
+    }
+
+Foreach ($msu in $Resources)
+		{
+        if (($msu.url).StartsWith("ResFolder"))
+        {
+            # Convert File path to local directory path 
+            [String] $msu.url -replace 'ResFolder',"file:///$Workdir.Substring(0,2)/resources" 
+			$ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
+        } # if
+    }
+
+
 $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
 }
 
