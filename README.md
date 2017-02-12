@@ -16,14 +16,14 @@ The first is KB 3176936, the article with the link to download from the update c
 The second is KB 3192366, the article with the link to download from the update catalog is https://support.microsoft.com/en-us/kb/3192366
 
 
-Windows Server 2012 R2 is a bit more complex, as it may require a lot more updates, Microsoft is currently updating the servicing process to reduce the total number of updates, but this has not been completed at the time of this writing. 
+Windows Server 2012 R2 is a bit more complex, as it may require a lot more updates. 
 
 I personally created a custom ISO that has a version of 2012 R2 that is patched up to June 26, 2016, there are numerous references that can be found through web searches if you want to create your own image. 
 
 Configuration assumes that all needed updates will be in Resources folder
 
-If the updates or files can be downloaded from a MS download site without needing a login, or registration the files will be automatically downloaded.
-
 Most DSC modules can be downloaded from the PowerShell gallery, however a few like the xSCVMM module must be used from the LabBuilderLabs repository due to changes that have not been propagated yet or are not acceptable based on current format. 
 
-All required DSC resources are part of the LabBuilderLabs repository 
+All required DSC resources are in the LabBuilderLabs repository, however, they may not be current. 
+
+In order to have current help files available for PowerShell modules you will need to download them and save them in the Tools Folder.
