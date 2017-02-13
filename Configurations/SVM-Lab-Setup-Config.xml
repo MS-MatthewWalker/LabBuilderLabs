@@ -16,100 +16,46 @@
     <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="Password1" timezone="Pacific Standard Time" ostype="Server" />
   </templates>
   <vms>
-    <vm name="SHVMS2" template="Windows Server 2016 Datacenter FULL" computername="LAB3_SHVMS2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" memorystartupbytes="6GB" processorCount="4" DynamicMemoryEnabled="N">
-      <dsc configname="LAB_DC_FORESTPRIMARY" configfile="LAB_DC_FORESTPRIMARY.DSC.ps1">
+    <vm name="SHVMS1" template="Windows Server 2016 Datacenter FULL" computername="Lab3_SHVMS1" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorcount="4" memorystartupbytes="8GB" DynamicMemoryEnabled="N">
+      <dsc configname="LAB_MEMBER_Server" configfile="LAB_MEMBER_Server.DSC.ps1">
         <parameters>
           DomainName = "Contoso.COM"
           DomainAdminPassword = "Password1"
+          PSDscAllowDomainUser = $True
           
-          SQLSourcePath = 'T:\Tools'
-          SQLSourceFolder = 'SQL'
-          SQLInstanceName = 'MSSQLServer'
-          SQLFeatures = 'SQLENGINE,SSMS,ADV_SSMS'
-          SQLSAUser = 'Contoso\SQL_SA'
-          SQLSAUserPass = 'Password1'
-          SQLSysAdminAccounts = 'Contoso\Domain Admins'
-          SQLAgtSvcAccount = 'Contoso\SQL_Agent'
-          SQLAgentUserPass = 'Password1'
-
-          SCVMMInstallPath = "\SCVMM\"
-          SCVMMSAUser = 'Contoso\VMM_SA'
-          SCVMMSAPass = 'Password1'
-          SCVMMDBServerName = 'DC'
-
-          ADUsers = @(
-          @{ Name = 'WKSAdmin';
-          Cred = 'Password1';
-          Description = 'Workshop Admin Account';
-          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
-          },
-          @{ Name = 'SQL_Agent';
-          Cred = 'Password1';
-          Description = 'Workshop Admin Account';
-          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
-          },
-          @{ Name = 'LABAdmin';
-          Cred = 'Password1';
-          Description = 'Workshop Admin Account';
-          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
-          },
-          @{ Name = 'SQL_SA';
-          Cred = 'Password1';
-          Description = 'Workshop Admin Account';
-          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
-          },
-          @{ Name = 'VMM_SA';
-          Cred = 'Password1';
-          Description = 'Workshop Admin Account';
-          OUPath = 'OU=Users,OU=Workshop,DC=contoso,DC=com';
+          Disks = @(
+          @{ Name = 'VMDrive';
+          Number = '1';
+          DriveLetter = 'E';
+          FSLabel = 'VMDrive';          
           }
           )
 
-          ADOUs = @(
-          @{ Name = 'Workshop';
-          Path = 'DC=contoso,DC=com';
-          Description = 'Workshop OU';
-          },
-          @{ Name = 'Users';
-          Path = 'OU=Workshop,DC=contoso,DC=com';
-          Description = 'Users OU for Workshop';
-          },
-          @{ Name = 'Servers';
-          Path = 'OU=Workshop,DC=contoso,DC=com';
-          Description = 'Servers OU for Workshop';
-          }
-          )
-
-
-          Scopes = @(
-          @{ Name = 'Public';
-          Start = '192.168.100.100';
-          End = '192.168.100.149';
-          SubnetMask = '255.255.255.0';
-          AddressFamily = 'IPv4'
-          }
-          )
-
-          ScopeOptions = @(
-          @{ ScopeID = '192.168.100.0';
-          DNServerIPAddress = @('192.168.100.2');
-          Router = '192.168.100.255';
-          AddressFamily = 'IPv4'
-          }
-          )
           
-
         </parameters>
       </dsc>
       <adapters>
         <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
-          <ipv4 address="192.168.100.2" defaultgateway="192.168.100.255" prefixlength="24" dnsserver="192.168.100.2" />
+          <ipv4 address="192.168.100.1" defaultgateway="192.168.100.255" PrefixLength="24" dnsserver="192.168.100.2" />
         </adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="DC-ToolsDISK.VHDX" Size="100GB" Type="Dynamic" copyfolders=".\Tools" partitionstyle="GPT" filesystem="NTFS" filesystemlable="Tools" />
-        <DataVHD VHD="iSCSIDisk.VHDX" Size="500GB" Type="Dynamic" />
+        <DataVHD VHD="VMDrive.VHDX" Size="60GB" Type="Dynamic" />
       </DataVHDs>
+    </vm>
+    <vm name="SHVMS3" template="Windows Server 2016 Datacenter FULL" computername="Lab3_SHVMS3" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" processorCount="4" memorystartupbytes="2GB" DynamicMemoryEnabled="N">
+      <dsc configname="LAB_MEMBER_HGS" configfile="LAB_MEMBER_HGS.DSC.ps1">
+        <parameters>
+          DomainName = "Contoso.COM"
+          DomainAdminPassword = "Password1"
+          PSDscAllowDomainUser = $True
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.3" defaultgateway="192.168.100.255" PrefixLength="24" dnsserver="192.168.100.2" />
+        </adapter>
+      </adapters>
     </vm>
   </vms>
 </labbuilderconfig>

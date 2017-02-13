@@ -461,7 +461,7 @@ Configuration LAB_DC_FORESTPRIMARY
         {
             PSDSCRunAsCredential = $DomainAdminCredential
             SetScript = { 
-                redircmp 'OU=Servers,OU=Workshop,DC=corp,DC=contoso,DC=com'
+                redircmp $($Using:Node.ADDefaultComputersOU)
             }
             GetScript = {
                 Return @{
@@ -469,7 +469,7 @@ Configuration LAB_DC_FORESTPRIMARY
                 }
             }
             TestScript = { 
-                if ((Get-ADDomain).ComputersContainer -eq 'OU=Servers,OU=Workshop,DC=corp,DC=contoso,DC=com') {
+                if ((Get-ADDomain).ComputersContainer -eq $($Using:Node.ADDefaultComputersOU)) {
                     Return $true
                     
                 }else {
@@ -483,7 +483,7 @@ Configuration LAB_DC_FORESTPRIMARY
         {
             PSDSCRunAsCredential = $DomainAdminCredential
             SetScript = { 
-                redirusr 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com'
+                redirusr $($Using:Node.ADDefaultUsersOU)
             }
             GetScript = {
                 Return @{
@@ -491,7 +491,7 @@ Configuration LAB_DC_FORESTPRIMARY
                 }
             }
             TestScript = { 
-                if ((Get-ADDomain).UsersContainer -eq 'OU=Users,OU=Workshop,DC=corp,DC=contoso,DC=com') {
+                if ((Get-ADDomain).UsersContainer -eq $($Using:Node.ADDefaultUsersOU)) {
                     Return $true
                     
                 }else {

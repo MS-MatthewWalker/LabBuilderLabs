@@ -4,7 +4,7 @@ DSC Template Configuration File For use by LabBuilder
 	MEMBER_HGS
 .Desription
 	Builds a Server and then installs HGS components.
-	Requires cMicrosoftUpdate resource from https://github.com/fabiendibot/cMicrosoftUpdate
+	
 .Parameters:          
 
 #########################################################################################################################################>

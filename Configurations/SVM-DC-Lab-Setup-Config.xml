@@ -43,6 +43,9 @@
           SCVMMSAUser = 'Contoso\VMM_SA'
           SCVMMSAPass = 'Password1'
           SCVMMDBServerName = 'LAB3_SHVMS2'
+          
+          ADDefaultUsersOU = 'OU=Users,OU=Workshop,DC=contoso,DC=com'
+          ADDefaultComputersOU = 'OU=Servers,OU=Workshop,DC=contoso,DC=com'
 
           ADUsers = @(
           @{ Name = 'WKSAdmin';

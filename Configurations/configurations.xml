@@ -3,14 +3,21 @@
     <Configuration Name="Shielded VM Lab"
                    HasDC="yes"
                    DCConfigurationFile="SVM-DC-Lab-Setup-Config.xml"
-                   LabConfigFile="SVM-Lab-Setup-Config.xml" />
+                   LabConfigFile="SVM-Lab-Setup-Config.xml"
+                   DomainAdminName="Contoso\Administrator"
+                   DomainPassword="Password1" />
     <Configuration Name="Hyper-V Demo Lab"
                    HasDC="yes"
                    DCConfigurationFile="Hyper-V-DC-Lab-Setup-Config.xml"
-                   LabConfigFile="Hyper-V-Lab-Setup-Config.xml" />
+                   LabConfigFile="Hyper-V-Lab-Setup-Config.xml" 
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!" />
+
     <Configuration Name="Software Defined Storage Demo Lab"
                    HasDC="yes"
                    DCConfigurationFile="SDS-DC-Lab-Setup-Config.xml"
-                   LabConfigFile="SDS-Lab-Setup-Config.xml" />
+                   LabConfigFile="SDS-Lab-Setup-Config.xml"
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!" />
 
 </Configurations>

@@ -146,6 +146,8 @@ foreach ($AvailableLab in $AvailableLabs)
 		{ 
 			$ConfigFiles += $AvailableLab.LabConfigFile
 			$LabConfigFile = $AvailableLab.LabConfigFile
+			$AdminAcct = $Availablelab.DomainAdminName
+			$AdminPass = $Availablelab.DomainPassword
 			if ($Availablelab.HasDC -eq "Yes")
 				{
 					$ConfigFiles += $AvailableLab.DCConfigurationFile
@@ -174,6 +176,8 @@ Write-Host "`t LabFolder is $LabFolder"
 ForEach ($ConfigFile in $ConfigFiles)
 {
 	[xml]$ConfigXML = Get-Content "$Workdir\Configurations\$ConfigFile"
+
+    [string]$LabID = $ConfigXML.labbuilderconfig.settings.LabId
 
 	[string]$XMLResourcePath = $ConfigXML.labbuilderconfig.settings.resourcepath
 	[string]$XMLModulePath = $ConfigXML.labbuilderconfig.settings.modulepath
@@ -319,9 +323,9 @@ Write-host "Configuring DC takes a while"
 Write-host "Initial configuration in progress. Sleeping $VMStartupTime seconds"
 Start-Sleep $VMStartupTime
 
-$DCVM = Get-VM -Name Lab-DC
+$DCVM = Get-VM -Name "$LabId*"
 
-[PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ('Corp\Administrator', (ConvertTo-SecureString 'LS1setup!' -AsPlainText -Force))
+[PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ($AdminAcct, (ConvertTo-SecureString $AdminPass -AsPlainText -Force))
 
 do{
 	$test=Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Get-DscConfigurationStatus} -Credential $cred -ErrorAction SilentlyContinue
