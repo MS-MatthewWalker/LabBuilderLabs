@@ -293,7 +293,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
     If ($EnableVBS)
         {
             $DevGuard = Get-CimInstance –ClassName Win32_DeviceGuard –Namespace root\Microsoft\Windows\DeviceGuard
-            if (-not($DevGuard.SecurityServicesConfigured -contains 1)) 
+            if (-not(($DevGuard.SecurityServicesConfigured -contains 1)-or ($DevGuard.SecurityServicesConfigured -contains 2))) 
                 {
                     New-Item -Path HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard -Force  
                     New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard -Name EnableVirtualizationBasedSecurity -Value 1 -PropertyType DWord -Force
