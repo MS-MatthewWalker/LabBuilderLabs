@@ -153,7 +153,20 @@ foreach ($AvailableLab in $AvailableLabs)
 					$ConfigFiles += $AvailableLab.DCConfigurationFile
 					$DCConfigFile = $AvailableLab.DCConfigurationFile
 				}
-		} 
+
+            $EnableVBS=$False    
+            if ($AvailableLab.RequireVBS -eq "Yes")
+                {
+                    $EnableVBS=$True
+                }
+
+            $EnableSharedDisk=$False    
+            if ($AvailableLab.RequireSharedDisk -eq "Yes")
+                {
+                    $EnableSharedDisk=$True
+                }
+
+		}   
 	}
 
 
@@ -183,7 +196,7 @@ ForEach ($ConfigFile in $ConfigFiles)
 	[string]$XMLModulePath = $ConfigXML.labbuilderconfig.settings.modulepath
 	[string]$XMLDSCPath = $ConfigXML.labbuilderconfig.settings.dsclibrarypath
 	[string]$XMLVHDParentPath = $ConfigXML.labbuildconfig.settings.vhdparentpath
-	$Resources = $ConfigXML.labbuildconfig.resources
+	$Resources = $ConfigXML.labbuildconfig.resources.msu
 
 	   if ($XMLResourcePath) {
         if (-not [System.IO.Path]::IsPathRooted($XMLResourcePath))
@@ -253,45 +266,89 @@ $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
 
 #Check if Hyper-V is installed.
 Write-Host "Checking if Hyper-V is installed" -ForegroundColor Cyan
-if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -eq 'Enabled'){
+if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -eq 'Enabled')
+    {
 	Write-Host "`t Hyper-V is Installed" -ForegroundColor Green
-}else{
-	Write-Host "`t Hyper-V not installed. Please install hyper-v feature including Hyper-V management tools. Exiting" -ForegroundColor Red
-	Write-Host "Press any key to continue ..."
-	$host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | OUT-NULL
-	$HOST.UI.RawUI.Flushinputbuffer()
-	Exit
-}
+    }
+    else    
+    {
+	Write-Host "`t Hyper-V not installed. Installing Hyper-V and tools - after reboot re-run script" -ForegroundColor Red
+        $OS=Get-CimInstance -ClassName win32_operatingsystem 
+        if ((($OS.operatingsystemsku -eq 7) -or ($OS.operatingsystemsku -eq 8) -or ($OS.operatingsystemsku -eq 79) -or ($OS.operatingsystemsku -eq 80)) -and $OS.version -gt 10)
+            {	
+                Install-WindowsFeature -Name Hyper-V -IncludeManagementTools -Restart
+                Write-Host "Press any key to continue ..."
+                $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | OUT-NULL
+                $HOST.UI.RawUI.Flushinputbuffer()
+                Exit
+            }
 
-#Check support for shared disks + enable if possible - Operating SKU versions are from header files and reported by WMI - 7 = Standard, 8 = DataCenter, 79 Standard Eval, and 80 is DataCenter Eval
+            elseif ((($OS.operatingsystemsku -eq 4) -or ($OS.operatingsystemsku -eq 6) -and $OS.version -gt 10))
+            {
+                Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+            }
+    }
 
-    Write-Host "Checking for support for shared disks" -ForegroundColor Cyan
-    $OS=gwmi win32_operatingsystem
-	if ((($OS.operatingsystemsku -eq 7) -or ($OS.operatingsystemsku -eq 8) -or ($OS.operatingsystemsku -eq 79) -or ($OS.operatingsystemsku -eq 80)) -and $OS.version -gt 10){
-		Write-Host "`t Installing Failover Clustering Feature"
-		$FC=Install-WindowsFeature Failover-Clustering 
+# Check for Support for Vitualization based Security - enable if necessary 
+    If ($EnableVBS)
+        {
+            $DevGuard = Get-CimInstance –ClassName Win32_DeviceGuard –Namespace root\Microsoft\Windows\DeviceGuard
+            if (-not($DevGuard.SecurityServicesConfigured -contains 1)) 
+                {
+                    New-Item -Path HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard -Force  
+                    New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Control\DeviceGuard -Name EnableVirtualizationBasedSecurity -Value 1 -PropertyType DWord -Force
 
-			Write-Host "Attaching svhdxflt filter driver to drive $LABfolderDrivePath" -ForegroundColor Cyan
+                }
+                else    {"Credential Guard configured"}
+            if (-Not($DevGuard.VirtualizationBasedSecurityStatus -contains 2))
+                {
+                    Write-Host "Virtualization Based Security is not running - if this is a Nested VM, set VirtualizationBasedSecurityOptOut to False. If this is a physical host you will need to troubleshoot" -ForegroundColor Red
+                }
+                
+                else {"Credential Guard running"}
 
-			fltmc.exe attach svhdxflt $LABfolderDrivePath
-
-			Write-Host "Adding svhdxflt to registry for autostart" -ForegroundColor Cyan
-			
-			if (!(Test-Path HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters)){
-				New-Item HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters
-			}
-			
-			New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters -Name AutoAttachOnNonCSVVolumes -PropertyType DWORD -Value 1 -force
+ 
+    
+        }
 
 
-		If ($FC.Success -eq $True){
-			Write-Host "`t`t Failover Clustering Feature installed with exit code: "$FC.ExitCode 
-		}else{
-			Write-Host "`t`t Failover Clustering Feature was not installed with exit code: "$FC.ExitCode
-		}
 
-	}
+# Check support for shared disks + enable if possible - Operating SKU versions are from header files and reported by WMI - 7 = Standard, 8 = DataCenter, 79 Standard Eval, and 80 is DataCenter Eval
 
+    If ($EnableSharedDisk)
+    {
+        Write-Host "Checking for support for shared disks" -ForegroundColor Cyan
+        $OS=gwmi win32_operatingsystem
+        if ((($OS.operatingsystemsku -eq 7) -or ($OS.operatingsystemsku -eq 8) -or ($OS.operatingsystemsku -eq 79) -or ($OS.operatingsystemsku -eq 80)) -and $OS.version -gt 10)
+        {
+            Write-Host "`t Installing Failover Clustering Feature"
+            $FC=Install-WindowsFeature Failover-Clustering 
+
+                Write-Host "Attaching svhdxflt filter driver to drive $LABfolderDrivePath" -ForegroundColor Cyan
+
+                fltmc.exe attach svhdxflt $LABfolderDrivePath
+
+                Write-Host "Adding svhdxflt to registry for autostart" -ForegroundColor Cyan
+                
+                if (-not(Test-Path HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters))
+                {
+                    New-Item HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters
+                }
+                
+                New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\svhdxflt\Parameters -Name AutoAttachOnNonCSVVolumes -PropertyType DWORD -Value 1 -force
+
+
+            If ($FC.Success -eq $True)
+            {
+                Write-Host "`t`t Failover Clustering Feature installed with exit code: "$FC.ExitCode 
+            }
+            else
+            {
+                Write-Host "`t`t Failover Clustering Feature was not installed with exit code: "$FC.ExitCode
+            }
+
+        }
+    }
 
 #Mount ISO and copy out .Net Cab file for SQL install
 

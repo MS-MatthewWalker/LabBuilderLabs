@@ -5,7 +5,9 @@
                    DCConfigurationFile="SVM-DC-Lab-Setup-Config.xml"
                    LabConfigFile="SVM-Lab-Setup-Config.xml"
                    DomainAdminName="Contoso\Administrator"
-                   DomainPassword="Password1" />
+                   DomainPassword="Password1"
+                   RequireVBS="yes" />
+    
     <Configuration Name="Hyper-V Demo Lab"
                    HasDC="yes"
                    DCConfigurationFile="Hyper-V-DC-Lab-Setup-Config.xml"
@@ -18,6 +20,7 @@
                    DCConfigurationFile="SDS-DC-Lab-Setup-Config.xml"
                    LabConfigFile="SDS-Lab-Setup-Config.xml"
                    DomainAdminName="Corp\Administrator"
-                   DomainPassword="LS1setup!" />
+                   DomainPassword="LS1setup!"
+                   RequireSharedDisk="Yes" />
 
 </Configurations>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<labbuilderconfig name="DC-Config-for-Labs" version="1.0">
+<labbuilderconfig name="SVM-DC-Config-for-Labs" version="1.0">
   <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
   <settings domainname="Contoso.COM"
             vhdparentpath=".\Virtual Hard Disk Templates"
