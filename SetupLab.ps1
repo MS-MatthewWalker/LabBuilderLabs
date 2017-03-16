@@ -318,7 +318,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
     If ($EnableSharedDisk)
     {
         Write-Host "Checking for support for shared disks" -ForegroundColor Cyan
-        $OS=gwmi win32_operatingsystem
+        $OS=Get-WmiObject win32_operatingsystem
         if ((($OS.operatingsystemsku -eq 7) -or ($OS.operatingsystemsku -eq 8) -or ($OS.operatingsystemsku -eq 79) -or ($OS.operatingsystemsku -eq 80)) -and $OS.version -gt 10)
         {
             Write-Host "`t Installing Failover Clustering Feature"
@@ -372,33 +372,37 @@ $null = Dismount-DiskImage -ImagePath $ISOPath
 # Now Copy the Windows Server ISO file
 
 Copy-Item -Path $ISOPath -Destination $Workdir\Tools\ISOs\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO -Force
-Import-Module .\LabBuilder.psm1 -Force
-Install-Lab -ConfigPath $Workdir\Configurations\$DCConfigFile -labpath $LABfolder -Verbose -Offline
 
-$VMStartupTime = 300 
-Write-host "Configuring DC takes a while"
-Write-host "Initial configuration in progress. Sleeping $VMStartupTime seconds"
-Start-Sleep $VMStartupTime
+If ($DCConfigFile)
+    {
+        Import-Module .\LabBuilder.psm1 -Force
+        Install-Lab -ConfigPath $Workdir\Configurations\$DCConfigFile -labpath $LABfolder -Verbose -Offline
 
-$DCVM = Get-VM -Name "$LabId*"
+        $VMStartupTime = 300 
+        Write-host "Configuring DC takes a while"
+        Write-host "Initial configuration in progress. Sleeping $VMStartupTime seconds"
+        Start-Sleep $VMStartupTime
 
-[PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ($AdminAcct, (ConvertTo-SecureString $AdminPass -AsPlainText -Force))
+        $DCVM = Get-VM -Name "$LabId*"
 
-do{
-	$test=Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Get-DscConfigurationStatus} -Credential $cred -ErrorAction SilentlyContinue
-	if ($test -eq $null) {
-		Write-Host "Configuration in Progress. Sleeping 10 seconds"
-	}else{
-		Write-Host "Current DSC state: $($test.status), ResourcesNotInDesiredState: $($test.resourcesNotInDesiredState.count), ResourcesInDesiredState: $($test.resourcesInDesiredState.count). Sleeping 10 seconds" 
-		Write-Host "Invoking DSC Configuration again" 
-		Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Start-DscConfiguration -UseExisting} -Credential $cred
-	}
-	Start-Sleep 10
-}until ($test.Status -eq 'Success' -and $test.rebootrequested -eq $false)
-$test
+        [PSCredential]$Cred = New-Object System.Management.Automation.PSCredential ($AdminAcct, (ConvertTo-SecureString $AdminPass -AsPlainText -Force))
 
-$Session = New-PSSession -VMname $DCVM.VMName -Credential $Cred
-Copy-Item -FromSession $Session -Path T:\Tools\ODJFiles -Recurse -Destination $Workdir\Tools\ -Force
+        do{
+            $test=Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Get-DscConfigurationStatus} -Credential $cred -ErrorAction SilentlyContinue
+            if ($test -eq $null) {
+                Write-Host "Configuration in Progress. Sleeping 10 seconds"
+            }else{
+                Write-Host "Current DSC state: $($test.status), ResourcesNotInDesiredState: $($test.resourcesNotInDesiredState.count), ResourcesInDesiredState: $($test.resourcesInDesiredState.count). Sleeping 10 seconds" 
+                Write-Host "Invoking DSC Configuration again" 
+                Invoke-Command -VMGuid $DCVM.id -ScriptBlock {Start-DscConfiguration -UseExisting} -Credential $cred
+            }
+            Start-Sleep 10
+        }until ($test.Status -eq 'Success' -and $test.rebootrequested -eq $false)
+        $test
+
+        $Session = New-PSSession -VMname $DCVM.VMName -Credential $Cred
+        Copy-Item -FromSession $Session -Path T:\Tools\ODJFiles -Recurse -Destination $Workdir\Tools\ -Force
+    }
 
 Import-Module .\LabBuilder.psm1 -Force
 Install-Lab -ConfigPath $Workdir\Configurations\$LabConfigFile -labpath $LABfolder -Verbose -Offline
