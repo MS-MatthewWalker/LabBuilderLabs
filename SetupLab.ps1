@@ -196,7 +196,7 @@ ForEach ($ConfigFile in $ConfigFiles)
 	[string]$XMLModulePath = $ConfigXML.labbuilderconfig.settings.modulepath
 	[string]$XMLDSCPath = $ConfigXML.labbuilderconfig.settings.dsclibrarypath
 	[string]$XMLVHDParentPath = $ConfigXML.labbuildconfig.settings.vhdparentpath
-	$Resources = $ConfigXML.labbuildconfig.resources.msu
+	$Resources = $ConfigXML.labbuilderconfig.resources.msu
 
 	   if ($XMLResourcePath) {
         if (-not [System.IO.Path]::IsPathRooted($XMLResourcePath))
@@ -250,12 +250,35 @@ ForEach ($ConfigFile in $ConfigFiles)
         } # if
     }
 
+If ($EnableSharedDisk)
+    {
+        $SharedDiskPath="$LabFolder\Shared"
+        $VMs = $ConfigXML.labbuilderconfig.vms.vm
+        
+        ForEach ($VM in $VMs)
+        {
+            if ($VM.SelectSingleNode($VM.DataVHDs.DataVHD).Count)
+            {
+                $DataVHDs = $VM.DataVHDs.DataVHD
+                foreach ($DataVHD in $DataVHDs)
+                {
+                    if ($DataVHD.Shared -eq 'Y')
+                    {
+                        [String] $DataVHD.VHD -replace 'SharedPath', $SharedDiskPath
+                    } #IF
+                } #ForEach
+            } #IF
+
+        } #ForEach
+     } #IF
+
+
 Foreach ($msu in $Resources)
 		{
-        if (($msu.url).StartsWith("ResFolder"))
+        if (($msu.url).StartsWith('ResFolder'))
         {
             # Convert File path to local directory path 
-            [String] $msu.url -replace 'ResFolder',"file:///$Workdir.Substring(0,2)/resources" 
+            [String] $msu.url -replace 'ResFolder',"file:///$Workdir/resources" 
 			$ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
         } # if
     }
@@ -317,6 +340,8 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 
     If ($EnableSharedDisk)
     {
+        
+
         Write-Host "Checking for support for shared disks" -ForegroundColor Cyan
         $OS=Get-WmiObject win32_operatingsystem
         if ((($OS.operatingsystemsku -eq 7) -or ($OS.operatingsystemsku -eq 8) -or ($OS.operatingsystemsku -eq 79) -or ($OS.operatingsystemsku -eq 80)) -and $OS.version -gt 10)
