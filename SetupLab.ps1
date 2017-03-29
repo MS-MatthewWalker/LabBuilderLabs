@@ -257,14 +257,17 @@ If ($EnableSharedDisk)
         
         ForEach ($VM in $VMs)
         {
-            if ($VM.SelectSingleNode($VM.DataVHDs.DataVHD).Count)
+            if ($VM.DataVHDs.DataVHD.Shared -eq 'Y')
             {
                 $DataVHDs = $VM.DataVHDs.DataVHD
                 foreach ($DataVHD in $DataVHDs)
                 {
                     if ($DataVHD.Shared -eq 'Y')
                     {
-                        [String] $DataVHD.VHD -replace 'SharedPath', $SharedDiskPath
+                        [String] $DataVHDPath = $DataVHD.VHD
+                        $DataVHDPath = $DataVHDPath.Replace('SharedPath', $SharedDiskPath)
+                        $DataVHD.VHD = $DataVHDPath
+                        $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
                     } #IF
                 } #ForEach
             } #IF
@@ -278,7 +281,10 @@ Foreach ($msu in $Resources)
         if (($msu.url).StartsWith('ResFolder'))
         {
             # Convert File path to local directory path 
-            [String] $msu.url -replace 'ResFolder',"file:///$Workdir/resources" 
+            [String] $ResPath = $msu.url 
+            $ResPath = $ResPath.replace('ResFolder',"file:///$Workdir/resources")
+            $ResPath = $ResPath.Replace('\','/')
+            $msu.url = $ResPath
 			$ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
         } # if
     }

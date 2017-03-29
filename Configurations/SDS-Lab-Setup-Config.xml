@@ -129,8 +129,8 @@
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="d:\labs\Replica-SEA\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="d:\labs\Replica-SEA\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="SharedPath\Replica-SEA\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="SharedPath\Replica-SEA\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
     <vm name="Replica-RED" template="Windows Server 2016 Datacenter CORE" computername="Replica-RED" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
@@ -145,8 +145,8 @@
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="SharedPath\Replica-Red\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="SharedPath\Replica-Red\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
   </vms>
