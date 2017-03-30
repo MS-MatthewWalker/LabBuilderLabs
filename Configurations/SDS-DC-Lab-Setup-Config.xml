@@ -84,7 +84,7 @@
           @{ ComputerName = '2Node1';
              FilePath = 'T:\Tools\ODJFiles\';
           },
-          @{ ComputerName = '2Node2';1021
+          @{ ComputerName = '2Node2';
              FilePath = 'T:\Tools\ODJFiles\';
           },
           @{ ComputerName = 'S2D1';
