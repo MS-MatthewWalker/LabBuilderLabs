@@ -33,7 +33,11 @@
   <vms>
     <vm name="Compute" template="Windows Server 2016 Datacenter FULL" computername="Compute" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True                         </parameters>
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
@@ -45,7 +49,13 @@
     </vm>
     <vm name="S2D" template="Nano Server 2016" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath=".\Tools\ODJFiles">
       <dsc configname="LAB_MEMBER_NANO" configfile="LAB_MEMBER_NANO.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True                    DCName = 'DC'          RequestFilePath = "C:\Windows\Setup\ODJFiles\"                  </parameters>
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+            DCName = 'DC'
+            RequestFilePath = "C:\Windows\Setup\ODJFiles\"
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
@@ -75,7 +85,11 @@
     </vm>
     <vm name="Shared" template="Windows Server 2016 Datacenter CORE" computername="Shared" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="3">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True                         </parameters>
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
@@ -101,7 +115,13 @@
     </vm>
     <vm name="2Node" template="Nano Server 2016" computername="2Node" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="Tools\ODJFiles">
       <dsc configname="LAB_MEMBER_NANO" configfile="LAB_MEMBER_NANO.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True          DCName = 'DC'                RequestFilePath = "C:\Windows\Setup\ODJFiles\"        </parameters>
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+            DCName = 'DC'
+            RequestFilePath = "C:\Windows\Setup\ODJFiles\"
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
@@ -119,7 +139,11 @@
     </vm>
     <vm name="Replica-SEA" template="Windows Server 2016 Datacenter CORE" computername="Replica-SEA" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True                         </parameters>
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
@@ -135,7 +159,11 @@
     </vm>
     <vm name="Replica-RED" template="Windows Server 2016 Datacenter CORE" computername="Replica-RED" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>          DomainName = "Corp.Contoso.COM"          DomainAdminPassword = "LS1setup!"          PSDscAllowDomainUser = $True                         </parameters>
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+        </parameters>
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
