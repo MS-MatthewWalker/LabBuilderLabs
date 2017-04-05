@@ -275,6 +275,21 @@ If ($EnableSharedDisk)
         } #ForEach
      } #IF
 
+        $ODJFilePath=$WorkDir
+        $VMs = $ConfigXML.labbuilderconfig.vms.vm
+        
+        ForEach ($VM in $VMs)
+        {
+            if ($VM.NanoODJPath)
+            {
+                        [String] $NanoODJPath = $VM.NanoODJPath
+                        $NanoODJPath = $NanoODJPath.Replace('ODJPath', $ODJFilePath)
+                        $VM.NanoODJPath = $NanoODJPath
+                        $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
+            } #IF
+        } #ForEach
+
+
 
 Foreach ($msu in $Resources)
 		{

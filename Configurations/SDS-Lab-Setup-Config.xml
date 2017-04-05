@@ -47,7 +47,7 @@
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
       </adapters>
     </vm>
-    <vm name="S2D" template="Nano Server 2016" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath=".\Tools\ODJFiles">
+    <vm name="S2D" template="Nano Server 2016" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="ODJPath\Tools\ODJFiles">
       <dsc configname="LAB_MEMBER_NANO" configfile="LAB_MEMBER_NANO.DSC.ps1">
         <parameters>
             DomainName = "Corp.Contoso.COM"
@@ -113,7 +113,7 @@
         <DataVHD VHD="SharedPath\HDD9.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
-    <vm name="2Node" template="Nano Server 2016" computername="2Node" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="Tools\ODJFiles">
+    <vm name="2Node" template="Nano Server 2016" computername="2Node" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="ODJPath\Tools\ODJFiles">
       <dsc configname="LAB_MEMBER_NANO" configfile="LAB_MEMBER_NANO.DSC.ps1">
         <parameters>
             DomainName = "Corp.Contoso.COM"
