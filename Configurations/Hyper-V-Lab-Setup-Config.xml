@@ -61,21 +61,21 @@
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.11" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.11" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
         </adapter>
         <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
-          <ipv4 address="192.168.0.11" PrefixLength="24" />
+          <ipv4 address="192.168.0.11" SubnetMask="24" />
         </adapter>
         <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
-          <ipv4 address="172.18.0.11" PrefixLength="24" />
+          <ipv4 address="172.18.0.11" SubnetMask="24" />
         </adapter>
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
-          <ipv4 address="172.16.0.11" PrefixLength="24" />
+          <ipv4 address="172.16.0.11" SubnetMask="24" />
         </adapter>
         <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
-          <ipv4 address="172.17.0.11" PrefixLength="24" />
+          <ipv4 address="172.17.0.11" SubnetMask="24" />
         </adapter>
       </adapters>
     </vm>
@@ -95,21 +95,21 @@
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.12" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.12" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
         </adapter>
         <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
-          <ipv4 address="192.168.0.12" PrefixLength="24" />
+          <ipv4 address="192.168.0.12" SubnetMask="24" />
         </adapter>
         <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
-          <ipv4 address="172.18.0.12" PrefixLength="24" />
+          <ipv4 address="172.18.0.12" SubnetMask="24" />
         </adapter>
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
-          <ipv4 address="172.16.0.12" PrefixLength="24" />
+          <ipv4 address="172.16.0.12" SubnetMask="24" />
         </adapter>
         <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
-          <ipv4 address="172.17.0.12" PrefixLength="24" />
+          <ipv4 address="172.17.0.12" SubnetMask="24" />
         </adapter>
       </adapters>
     </vm>
@@ -147,18 +147,18 @@
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.21" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.21" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
         </adapter>
         <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
-          <ipv4 address="192.168.0.21" PrefixLength="24" />
+          <ipv4 address="192.168.0.21" SubnetMask="24" />
         </adapter>
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
-          <ipv4 address="172.16.0.21" PrefixLength="24" />
+          <ipv4 address="172.16.0.21" SubnetMask="24" />
         </adapter>
         <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
-          <ipv4 address="172.17.0.21" PrefixLength="24" />
+          <ipv4 address="172.17.0.21" SubnetMask="24" />
         </adapter>
       </adapters>
     </vm>
@@ -182,18 +182,18 @@
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.22" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.22" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
         </adapter>
         <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
-          <ipv4 address="192.168.0.22" PrefixLength="24" />
+          <ipv4 address="192.168.0.22" SubnetMask="24" />
         </adapter>
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
-          <ipv4 address="172.16.0.22" PrefixLength="24" />
+          <ipv4 address="172.16.0.22" SubnetMask="24" />
         </adapter>
         <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
-          <ipv4 address="172.17.0.22" PrefixLength="24" />
+          <ipv4 address="172.17.0.22" SubnetMask="24" />
         </adapter>
       </adapters>
     </vm>

@@ -193,22 +193,22 @@
       </dsc>
       <adapters>
         <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.1" defaultgateway="10.0.0.255" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.1" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
-          <ipv4 address="10.0.0.2" PrefixLength="24" dnsserver="10.0.0.1" />
+          <ipv4 address="10.0.0.2" SubnetMask="24" dnsserver="10.0.0.1" />
         </adapter>
         <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
-          <ipv4 address="192.168.0.1" PrefixLength="24" />
+          <ipv4 address="192.168.0.1" SubnetMask="24" />
         </adapter>
         <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
-          <ipv4 address="172.18.0.1" PrefixLength="24" />
+          <ipv4 address="172.18.0.1" SubnetMask="24" />
         </adapter>
         <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
-          <ipv4 address="172.16.0.1" PrefixLength="24" />
+          <ipv4 address="172.16.0.1" SubnetMask="24" />
         </adapter>
         <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
-          <ipv4 address="172.17.0.1" PrefixLength="24" />
+          <ipv4 address="172.17.0.1" SubnetMask="24" />
         </adapter>
       </adapters>
       <DataVHDs>
