@@ -33,7 +33,7 @@ Configuration LAB_MEMBER_HGS
 		WindowsFeature HGSInstall 
         { 
             Ensure = "Present" 
-            Name = "HostGaurdianService" 
+            Name = "HostGaurdianServiceRole" 
         } 
 
 		WindowsFeature RSATADPowerShell
