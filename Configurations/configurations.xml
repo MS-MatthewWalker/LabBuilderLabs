@@ -15,6 +15,14 @@
                    DomainAdminName="Corp\Administrator"
                    DomainPassword="LS1setup!" />
 
+    <Configuration Name="Combo Demo Lab"
+                   HasDC="yes"
+                   DCConfigurationFile="Combo-DC-Lab-Setup-Config.xml"
+                   LabConfigFile="Combo-Lab-Setup-Config.xml" 
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!" />
+
+
     <Configuration Name="Software Defined Storage Demo Lab"
                    HasDC="yes"
                    DCConfigurationFile="SDS-DC-Lab-Setup-Config.xml"
@@ -22,5 +30,13 @@
                    DomainAdminName="Corp\Administrator"
                    DomainPassword="LS1setup!"
                    RequireSharedDisk="Yes" />
+
+    <Configuration Name="Combo Demo Lab VMs Only"
+                   HasDC="No"
+                   LabConfigFile="Combo-Lab-Setup-Config.xml" 
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!" />
+
+
 
 </Configurations>

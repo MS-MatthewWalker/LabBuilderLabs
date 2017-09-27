@@ -398,7 +398,7 @@ if ((Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V).state -e
 
 #Mount ISO and copy out .Net Cab file for SQL install
 
-$ISOPath = "$Workdir\Configurations\ISOFiles\14393.0.160715-1616.RS1_RELEASE_SERVER_EVAL_X64FRE_EN-US.ISO"
+$ISOPath = "$Workdir\Configurations\ISOFiles\14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO"
 
 $null = Mount-DiskImage -ImagePath $ISOPath -StorageType ISO -Access Readonly
 
