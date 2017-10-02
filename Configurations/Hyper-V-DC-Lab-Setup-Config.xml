@@ -3,9 +3,9 @@
   <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
   <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources" resourcepath=".\Resources" LabId="Lab-" modulepath=".\Modules" />
   <resources>
-    <msu name="WMF5.0-WS2012R2-W81" url="https://download.microsoft.com/download/2/C/6/2C6E1B4A-EBE5-48A6-B225-2D2058A9CEFB/Win8.1AndW2K12R2-KB3134758-x64.msu" />
-    <msu name="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" url="ResFolder/windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" />
-    <msu name="windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" url="ResFolder/windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"/>
+    <msu name="Win8.1AndW2K12R2-KB3191564-x64.msu" url="ResFolder/Win8.1AndW2K12R2-KB3191564-x64.msu" />
+    <msu name="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" url="ResFolder/windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" />
+    <msu name="windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" url="ResFolder/windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu"/>
   </resources>
   <switches>
     <switch name="Public1" type="Private" />
