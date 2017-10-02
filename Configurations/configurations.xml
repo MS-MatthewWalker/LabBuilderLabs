@@ -39,6 +39,12 @@
                    DomainPassword="LS1setup!"
                    RequireSharedDisk="Yes" />
 
+    <Configuration Name="Hyper-V Preview Demo Lab"
+                   HasDC="yes"
+                   DCConfigurationFile="Hyper-V-DC-Lab-Setup-Config.xml"
+                   LabConfigFile="Hyper-V-Lab-Preview-Setup-Config.xml" 
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!" />
 
 
 </Configurations>

@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<labbuilderconfig name="WS2016_Combo_Workshop" version="1.0">
+<labbuilderconfig name="WS2016_Preview" version="1.0">
   <description>Lab Buildout for Windows Server 2016 MSInternal Workshop</description>
-  <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources\" resourcepath=".\Resources\" LabId="Lab-" modulepath=".\Modules" />
+  <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources\" resourcepath=".\Resources\" LabId="Preview-" modulepath=".\Modules" />
   <resources>
-    <msu name="Win8.1AndW2K12R2-KB3191564-x64.msu" url="ResFolder/Win8.1AndW2K12R2-KB3191564-x64.msu" />
-    <msu name="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" url="ResFolder/windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" />
-    <msu name="windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" url="ResFolder/windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu"/>
+    <msu name="WMF5.0-WS2012R2-W81" url="https://download.microsoft.com/download/2/C/6/2C6E1B4A-EBE5-48A6-B225-2D2058A9CEFB/Win8.1AndW2K12R2-KB3134758-x64.msu" />
+    <msu name="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" url="ResFolder/windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" />
+    <msu name="windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" url="ResFolder/windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"/>
+    <msu name="Windows_InsiderPreview_RSAT_x64_16279.msu" url="ResFolder/Windows_InsiderPreview_RSAT_x64_16279.msu"/>
   </resources>
   <switches>
     <switch name="Public1" type="Private" />
@@ -15,19 +16,23 @@
     <switch name="Cluster" type="Private" />
   </switches>
   <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
-    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
-    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
-    <templatevhd name="Windows Server 2012 R2 Datacenter Core" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" vhd="Windows Server 2012 R2 Datacenter Core.vhdx" edition="2012R2CorePatched" ostype="Server" packages="Win8.1AndW2K12R2-KB3191564-x64.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
-    <templatevhd name="Windows Server 2012 R2 Datacenter Full" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2" vhd="Windows Server 2012 R2 Datacenter Full.vhdx" edition="2012R2FullPatched" ostype="Server" packages="Win8.1AndW2K12R2-KB3191564-x64.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Nano Server 2016" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Nano Server 2016.vhdx" edition="Windows Server 2016 SERVERDATACENTERNANO" ostype="Nano" packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab,windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Windows Server 2012 R2 Datacenter Core" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" vhd="Windows Server 2012 R2 Datacenter Core.vhdx" edition="2012R2CorePatched" ostype="Server" packages="WMF5.0-WS2012R2-W81" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Windows Server 2012 R2 Datacenter Full" iso="en_Windows_Server_2012_R2_with_update_x64_dvd_PATCHED.iso" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2012-r2" vhd="Windows Server 2012 R2 Datacenter Full.vhdx" edition="2012R2FullPatched" ostype="Server" packages="WMF5.0-WS2012R2-W81" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter Preview" iso="Windows_InsiderPreview_Server_16278.iso" vhd="Windows Server Preview.vhdx" edition="Windows Server 2016 SERVERSTANDARDACORE" ostype="Server" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
   </templatevhds>
   <templates>
     <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
     <template name="Windows Server 2016 Datacenter CORE" vhd="Windows Server 2016 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Core.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
+    <template name="Nano Server 2016" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="8.0" ostype="Nano" vhd="Nano Server 2016.vhdx" sourcevhd=".\VHDFiles\Template-Nano Server 2016.vhdx" />
     <template name="2012 R2 Full" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="5.0" ostype="Server" vhd="Windows Server 2012 R2 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Full.vhdx" />
     <template name="2012 R2 Core" memorystartupbytes="2GB" processorcount="1" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="5.0" ostype="Server" vhd="Windows Server 2012 R2 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2012 R2 Datacenter Core.vhdx" />
+    <template name="Windows Server 2016 Datacenter Preview" memorystartupbytes="2GB" processorcount="2" administratorpassword="LS1setup!" timezone="Pacific Standard Time" generation="2" version="8.0" ostype="Server" vhd="Windows Server Preview Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server Preview.vhdx" />
   </templates>
   <vms>
-    <vm name="Virt-Node1" template="Windows Server 2016 Datacenter FULL" computername="Virt-Node1" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorcount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
+    <vm name="Virt-Node1" template="Windows Server 2016 Datacenter Preview" computername="Virt-Node1" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorcount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
@@ -75,7 +80,7 @@
         </adapter>
       </adapters>
     </vm>
-    <vm name="Virt-Node2" template="Windows Server 2016 Datacenter FULL" computername="Virt-Node2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
+    <vm name="Virt-Node2" template="Windows Server 2016 Datacenter Preview" computername="Virt-Node2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
       <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
         <parameters>
           DomainName = "Corp.Contoso.COM"
@@ -192,82 +197,6 @@
           <ipv4 address="172.17.0.22" SubnetMask="24" />
         </adapter>
       </adapters>
-    </vm>
-    <vm name="S2D" template="Windows Server 2016 Datacenter CORE" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4">
-      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>
-            DomainName = "Corp.Contoso.COM"
-            DomainAdminPassword = "LS1setup!"
-            PSDscAllowDomainUser = $True
-            DCName = 'DC'
-            RequestFilePath = "C:\Windows\Setup\ODJFiles\"
-        </parameters>
-      </dsc>
-      <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
-      </adapters>
-      <DataVHDs>
-        <DataVHD VHD="SSD1.VHDX" Size="800GB" Type="Dynamic" />
-        <DataVHD VHD="SSD2.VHDX" Size="800GB" Type="Dynamic" />
-        <DataVHD VHD="SSD3.VHDX" Size="800GB" Type="Dynamic" />
-        <DataVHD VHD="SSD4.VHDX" Size="800GB" Type="Dynamic" />
-        <DataVHD VHD="HDD1.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD2.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD3.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD4.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD5.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD6.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD7.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD8.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD9.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD10.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD11.VHDX" Size="4TB" Type="Dynamic" />
-        <DataVHD VHD="HDD12.VHDX" Size="4TB" Type="Dynamic" />
-      </DataVHDs>
-    </vm>
-  <vm name="Replica-SEA" template="Windows Server 2016 Datacenter CORE" computername="Replica-SEA" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
-      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>
-            DomainName = "Corp.Contoso.COM"
-            DomainAdminPassword = "LS1setup!"
-            PSDscAllowDomainUser = $True
-        </parameters>
-      </dsc>
-      <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
-      </adapters>
-      <DataVHDs>
-        <DataVHD VHD="SharedPath\Replica-SEA\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\Replica-SEA\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
-      </DataVHDs>
-    </vm>
-    <vm name="Replica-RED" template="Windows Server 2016 Datacenter CORE" computername="Replica-RED" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
-      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
-        <parameters>
-            DomainName = "Corp.Contoso.COM"
-            DomainAdminPassword = "LS1setup!"
-            PSDscAllowDomainUser = $True
-        </parameters>
-      </dsc>
-      <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
-      </adapters>
-      <DataVHDs>
-        <DataVHD VHD="SharedPath\Replica-Red\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\Replica-Red\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
-      </DataVHDs>
     </vm>
   </vms>
 </labbuilderconfig>
