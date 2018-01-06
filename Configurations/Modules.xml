@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <Modules>
+        <Module Name="cFileShare" />
+        <Module Name="cFirewall" />
+        <Module Name="ciSCSI" />
+        <Module Name="xActiveDirectory" />
+        <Module Name="xDhcpServer" />
+        <Module Name="xDNSServer" />
+        <Module Name="xFailOverCluster" />
+        <Module Name="xHyper-V" />
+        <Module Name="xNetworking" />
+        <Module Name="xPSDesiredStateConfiguration" />
+        <Module Name="xSMBShare" />
+        <Module Name="SQLServerDSC" />
+        <Module Name="xStorage" />
+    </Modules>

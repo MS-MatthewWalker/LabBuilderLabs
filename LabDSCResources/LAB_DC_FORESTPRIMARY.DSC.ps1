@@ -20,7 +20,7 @@ Configuration LAB_DC_FORESTPRIMARY
     Import-DscResource -ModuleName xHyper-V
     Import-DscResource -ModuleName xSMBShare
     Import-DscResource -ModuleName xSCVMM
-    Import-DscResource -ModuleName xSQLServer
+    Import-DscResource -ModuleName SQLServerDsc
 
 
     Node $AllNodes.NodeName {
@@ -316,12 +316,12 @@ Configuration LAB_DC_FORESTPRIMARY
             DependsOn = "[xDisk]ToolsDrive"                
         }
 
-        xSqlServerSetup SCVMMSQLDB
+        SqlSetup SCVMMSQLDB
         {
             DependsOn = "[WindowsFeature]NET"
             SourcePath = $Node.SQLSourcePath
             SourceFolder = $Node.SQLSourceFolder
-            SetupCredential = $DomainAdminCredential
+            PSDscRunAsCredential = $DomainAdminCredential
             InstanceName = $Node.SQLInstanceName
             Features = $Node.SQLFeatures
             SQLSVCAccount = $SQLSA
@@ -344,7 +344,7 @@ Configuration LAB_DC_FORESTPRIMARY
 
         xSCVMMConsoleSetup "VMMC"
         {
-            DependsOn = "[xSqlServerSetup]SCVMMSQLDB"
+            DependsOn = "[SqlSetup]SCVMMSQLDB"
             Ensure = "Present"
             SourcePath = $Node.SQLSourcePath
             SourceFolder = $Node.SCVMMInstallPath

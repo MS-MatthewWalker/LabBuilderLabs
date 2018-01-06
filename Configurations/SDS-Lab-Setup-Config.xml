@@ -3,8 +3,8 @@
   <description>Lab Buildout for Windows Server 2016 MSInternal Workshop</description>
   <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources\" resourcepath=".\Resources\" LabId="Lab-" modulepath=".\Modules" />
   <resources>
-    <msu name="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" url="ResFolder/windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" />
-    <msu name="windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" url="ResFolder/windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"/>
+    <msu name="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" url="ResFolder/windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" />
+    <msu name="windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" url="ResFolder/windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" />
   </resources>
   <switches>
     <switch name="Public1" type="Private" />
@@ -14,9 +14,9 @@
     <switch name="Cluster" type="Private" />
   </switches>
   <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
-    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
-    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
-    <templatevhd name="Nano Server 2016" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Nano Server 2016.vhdx" edition="Windows Server 2016 SERVERDATACENTERNANO" ostype="Nano" packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab,windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+    <templatevhd name="Nano Server 2016" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Nano Server 2016.vhdx" edition="Windows Server 2016 SERVERDATACENTERNANO" ostype="Nano" packages="Microsoft-NanoServer-Guest-Package.cab,Microsoft-NanoServer-Defender-Package.cab,Microsoft-NanoServer-DSC-Package.cab,windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
   </templatevhds>
   <templates>
     <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
@@ -33,11 +33,16 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
     </vm>
     <vm name="S2D" template="Nano Server 2016" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="ODJPath\Tools\ODJFiles">
@@ -51,11 +56,16 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
       <DataVHDs>
         <DataVHD VHD="SSD1.VHDX" Size="800GB" Type="Dynamic" />
@@ -85,25 +95,30 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="SharedPath\SharedNodes\SSD1.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\SSD2.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\SSD3.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD1.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD2.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD3.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD4.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD5.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD6.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD7.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD8.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\SharedNodes\HDD9.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\SSD1.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\SSD2.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\SSD3.VHDX" Size="800GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD1.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD2.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD3.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD4.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD5.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD6.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD7.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD8.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\SharedNodes\HDD9.VHDX" Size="4TB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
     <vm name="2Node" template="Nano Server 2016" computername="2Node" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2" packages="Microsoft-NanoServer-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Compute-Package.cab,Microsoft-NanoServer-SCVMM-Package.cab,Microsoft-NanoServer-FailoverCluster-Package.cab,Microsoft-NanoServer-Storage-Package.cab" NanoODJPath="ODJPath\Tools\ODJFiles">
@@ -117,11 +132,16 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
       <DataVHDs>
         <DataVHD VHD="HDD1.VHDX" Size="4TB" Type="Dynamic" />
@@ -139,15 +159,20 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="SharedPath\Replica-SEA\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\Replica-SEA\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\Replica-SEA\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\Replica-SEA\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
     <vm name="Replica-RED" template="Windows Server 2016 Datacenter CORE" computername="Replica-RED" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="2">
@@ -159,15 +184,20 @@
         </parameters>
       </dsc>
       <adapters>
-        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
-        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
-        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
-        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+        </adapter>
       </adapters>
       <DataVHDs>
-        <DataVHD VHD="SharedPath\Replica-Red\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
-        <DataVHD VHD="SharedPath\Replica-Red\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\Replica-Red\Data.VHDX" Size="200GB" Type="Dynamic" Shared="Y" />
+        <DataVHD VHD="E:\LABS\Shared\Replica-Red\Log.VHDX" Size="20GB" Type="Dynamic" Shared="Y" />
       </DataVHDs>
     </vm>
   </vms>

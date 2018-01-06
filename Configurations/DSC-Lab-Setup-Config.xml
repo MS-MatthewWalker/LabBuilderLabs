@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<labbuilderconfig name="DSC-Config-for-Labs" version="1.0">
+  <description>Lab Buildout for Windows Server 2016 Domain Controller </description>
+  <settings domainname="Contoso.COM"
+            vhdparentpath=".\Virtual Hard Disk Templates"
+            dsclibrarypath=".\LabDSCResources"
+            resourcepath=".\Resources"
+            LabId="DSC_"
+            modulepath=".\Modules"
+             />
+  <resources>
+    <msu name="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" url="ResFolder/windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu" />
+    <msu name="windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu" url="ResFolder/windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"/>
+  </resources>
+  <switches>
+    <switch name="Public" type="Private" />
+  </switches>
+  <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" Edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4013418-x64_b7165b95be791aeb025135efe60e00db2800c5c6.msu,windows10.0-kb4013429-x64_ddc8596f88577ab739cade1d365956a74598e710.msu"  features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+  </templatevhds>
+  <templates>
+    <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="PowerShell5!" timezone="Pacific Standard Time" ostype="Server" />
+    <template name="Windows Server 2016 Datacenter CORE" vhd="Windows Server 2016 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Core.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="PowerShell5!" timezone="Pacific Standard Time" ostype="Server" />
+  </templates>
+  <vms>
+    <vm name="Pull" template="Windows Server 2016 Datacenter FULL" computername="Pull" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" processorcount="4" memorystartupbytes="4GB" DynamicMemoryEnabled="Y" LCMSetting="ApplyOnly">
+      <dsc configname="LAB_MEMBER_Server" configfile="LAB_MEMBER_Server.DSC.ps1">
+        <parameters>
+          DomainName = "Contoso.COM"
+          DomainAdminPassword = "PowerShell5!"
+          PSDscAllowDomainUser = $True
+          
+
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
+          <ipv4 address="10.10.10.20" defaultgateway="10.10.10.255" SubnetMask="24" dnsserver="10.10.10.10" />
+        </adapter>
+      </adapters>
+    </vm>
+    <vm name="MS1" template="Windows Server 2016 Datacenter FULL" computername="MS1" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" processorCount="4" memorystartupbytes="4GB" DynamicMemoryEnabled="Y" LCMSetting="ApplyAndMonitor">
+      <dsc configname="LAB_MEMBER_HGS" configfile="LAB_MEMBER_HGS.DSC.ps1">
+        <parameters>
+          DomainName = "Contoso.COM"
+          DomainAdminPassword = "PowerShell5!"
+          PSDscAllowDomainUser = $True
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
+          <ipv4 address="10.10.10.30" defaultgateway="10.10.10.255" SubnetMask="24" dnsserver="10.10.10.10" />
+        </adapter>
+      </adapters>
+    </vm>
+    <vm name="MS2" template="Windows Server 2016 Datacenter FULL" computername="MS2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="N" processorCount="4" memorystartupbytes="4GB" DynamicMemoryEnabled="Y" LCMSetting="ApplyAndMonitor">
+      <dsc configname="LAB_MEMBER_HGS" configfile="LAB_MEMBER_HGS.DSC.ps1">
+        <parameters>
+          DomainName = "Contoso.COM"
+          DomainAdminPassword = "PowerShell5!"
+          PSDscAllowDomainUser = $True
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public" switchname="Public" MACAddressSpoofing="On">
+          <ipv4 address="10.10.10.40" defaultgateway="10.10.10.255" SubnetMask="24" dnsserver="10.10.10.10" />
+        </adapter>
+      </adapters>
+    </vm>
+  </vms>
+</labbuilderconfig>

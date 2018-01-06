@@ -1,4 +1,6 @@
+. .\functions.psm1
 
+#region
 # Code from Ben Armstrong https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/ 
 # Get the ID and security principal of the current user account
 $myWindowsID=[System.Security.Principal.WindowsIdentity]::GetCurrent()
@@ -34,96 +36,12 @@ else
    # Exit from the current, unelevated, process
    exit
    }
- 
+#endregion 
 # Run your code that needs to be elevated here
 Set-Location ([System.Environment]::GetCommandLineArgs()[2]);
 Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-##########################################################################################
 
-Function Get-ScriptDirectory
-    {
-    Split-Path $script:MyInvocation.MyCommand.Path
-    }
-
-##########################################################################################
-
-function ShowMenu 
-
-{
- [CmdletBinding()]
-    [Alias()]
-    [OutputType([String])]
-    Param
-    (
-        # Title for Selection box
-        [Parameter(Mandatory=$true, Position=0)]
-        [String]$Title,
-
-        # Informational Title 
-        [Parameter(Mandatory=$true,Position=1)]
-        [String]$Message,
-
-        # Source of choices to import to Selction box.
-        [Parameter(Mandatory=$true,Position=2)]
-        [String[]]$ListSource
-    )
-    
-
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-[void] [System.Reflection.Assembly]::LoadWithPartialName("System.Drawing") 
-
-$objForm = New-Object System.Windows.Forms.Form 
-$objForm.Text = $Title
-$objForm.Size = New-Object System.Drawing.Size(500,300) 
-$objForm.StartPosition = "CenterScreen"
-
-$objForm.KeyPreview = $True
-$objForm.Add_KeyDown({if ($_.KeyCode -eq "Enter") 
-    {$x=$objListBox.SelectedItem;$objForm.Close()}})
-$objForm.Add_KeyDown({if ($_.KeyCode -eq "Escape") 
-    {$objForm.Close()}})
-
-$CancelButton = New-Object System.Windows.Forms.Button
-$CancelButton.Location = New-Object System.Drawing.Size(250,220)
-$CancelButton.Size = New-Object System.Drawing.Size(75,23)
-$CancelButton.Text = "Cancel"
-$CancelButton.Add_Click({$objForm.Close()})
-$objForm.Controls.Add($CancelButton)
-
-$OKButton = New-Object System.Windows.Forms.Button
-$OKButton.Location = New-Object System.Drawing.Size(175,220)
-$OKButton.Size = New-Object System.Drawing.Size(75,23)
-$OKButton.Text = "OK"
-$OKButton.Add_Click({$objListBox.SelectedItem;$objForm.Close()})
-$objForm.Controls.Add($OKButton)
-
-$objLabel = New-Object System.Windows.Forms.Label
-$objLabel.Location = New-Object System.Drawing.Size(10,20) 
-$objLabel.Size = New-Object System.Drawing.Size(400,20) 
-$objLabel.Text = $message
-$objForm.Controls.Add($objLabel) 
-
-$objListBox = New-Object System.Windows.Forms.ListBox 
-$objListBox.Location = New-Object System.Drawing.Size(10,40) 
-$objListBox.Size = New-Object System.Drawing.Size(400,20) 
-$objListBox.Height = 175
-
-$ListSource | ForEach-Object {[void] $objListBox.Items.Add($_)}
-
-$objForm.Controls.Add($objListBox) 
-
-$objForm.Topmost = $True
-
-$objForm.Add_Shown({$objForm.Activate()})
-[void] $objForm.ShowDialog()
-
-$selected = $objListBox.Selecteditem
-
-Return $selected
-    
-} 
-##########################################################################################
 
 
 $Workdir=Get-ScriptDirectory
@@ -275,19 +193,34 @@ If ($EnableSharedDisk)
         } #ForEach
      } #IF
 
-        $ODJFilePath=$WorkDir
-        $VMs = $ConfigXML.labbuilderconfig.vms.vm
-        
-        ForEach ($VM in $VMs)
-        {
-            if ($VM.NanoODJPath)
-            {
-                        [String] $NanoODJPath = $VM.NanoODJPath
-                        $NanoODJPath = $NanoODJPath.Replace('ODJPath', $ODJFilePath)
-                        $VM.NanoODJPath = $NanoODJPath
-                        $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
+    $ToolsPath = "$Workdir\Tools"
+    $VMs = $ConfigXML.labbuilderconfig.vms.vm
+         
+    ForEach ($VM in $VMs) {
+        $DataVHDs = $VM.DataVHDs.DataVHD
+        foreach ($DataVHD in $DataVHDs) {
+            if ($DataVHD.copyfolders) {
+                [String] $DataToolsPath = $DataVHD.copyfolders
+                $DataToolsPath = $DataToolsPath.Replace('ToolsPath', $ToolsPath)
+                $DataVHD.copyfolders = $DataToolsPath
+                $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
             } #IF
         } #ForEach
+ 
+    } #ForEach
+ 
+
+    $ODJFilePath = $WorkDir
+    $VMs = $ConfigXML.labbuilderconfig.vms.vm
+        
+    ForEach ($VM in $VMs) {
+        if ($VM.NanoODJPath) {
+            [String] $NanoODJPath = $VM.NanoODJPath
+            $NanoODJPath = $NanoODJPath.Replace('ODJPath', $ODJFilePath)
+            $VM.NanoODJPath = $NanoODJPath
+            $ConfigXML.Save("$Workdir\Configurations\$ConfigFile")
+        } #IF
+    } #ForEach
 
 
 

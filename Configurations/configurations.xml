@@ -46,5 +46,14 @@
                    DomainAdminName="Corp\Administrator"
                    DomainPassword="LS1setup!" />
 
+    <Configuration Name="DSC Lab"
+                   HasDC="yes"
+                   DCConfigurationFile="DSC-DC-Lab-Setup-Config.xml"
+                   LabConfigFile="DSC-Lab-Setup-Config.xml" 
+                   DomainAdminName="Contoso\Administrator"
+                   DomainPassword="PowerShell5!" />
+
+
+
 
 </Configurations>
