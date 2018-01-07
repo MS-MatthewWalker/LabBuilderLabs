@@ -70,7 +70,7 @@ Configuration LAB_MEMBER_WDS
         
         xWaitforDisk Disk2
         {
-            DiskNumber = 1
+            DiskId = 1
             RetryIntervalSec = 60
             RetryCount = 60
             DependsOn = "[xComputer]JoinDomain" 
@@ -78,7 +78,7 @@ Configuration LAB_MEMBER_WDS
         
         xDisk DVolume
         {
-            DiskNumber = 1
+            DiskId = 1
             DriveLetter = 'D'
             DependsOn = "[xWaitforDisk]Disk2" 
         }

@@ -163,14 +163,14 @@ Configuration LAB_MEMBER_FAILOVERCLUSTER
             {
                 xWaitForDisk $Disk.Name
                 {
-                    DiskNumber = $Disk.number
+                    DiskId = $Disk.number
                     RetryIntervalSec = "5"
                     RetryCount = "10"
                 }
                 
                 xDisk $Disk.Name
                 {
-                    DiskNumber =$Disk.number
+                    DiskId =$Disk.number
                     DriveLetter = $Disk.DriveLetter
                     FSLabel = $Disk.FSLabel
 

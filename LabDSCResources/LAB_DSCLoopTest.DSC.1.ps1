@@ -203,27 +203,27 @@ Configuration LAB_DC_FORESTPRIMARY
 		
 		xWaitForDisk WaitiSCSIDrive
 		{
-			DiskNumber = "2"
+			DiskId = "2"
 			RetryIntervalSec = "5"
 			RetryCount = "10"
 		}
 		
 		xDisk iSCSIDrive
 		{
-			DiskNumber ='2'
+			DiskId ='2'
 			DriveLetter = 'I'
 			FSLabel = 'iSCSI'
 		}
         
 		xDisk ToolsDrive
 		{
-			DiskNumber ="1"
+			DiskId ="1"
 			DriveLetter = "T"
         }
         
         xWaitForDisk WaitToolsDrive
 		{
-			DiskNumber = "1"
+			DiskId = "1"
 			RetryIntervalSec = "5"
 			RetryCount = "10"
 		}

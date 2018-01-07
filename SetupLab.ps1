@@ -1,4 +1,3 @@
-. .\functions.psm1
 
 #region
 # Code from Ben Armstrong https://blogs.msdn.microsoft.com/virtual_pc_guy/2010/09/23/a-self-elevating-powershell-script/ 
@@ -42,7 +41,7 @@ Set-Location ([System.Environment]::GetCommandLineArgs()[2]);
 Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
-
+. .\functions.ps1
 
 $Workdir=Get-ScriptDirectory
 

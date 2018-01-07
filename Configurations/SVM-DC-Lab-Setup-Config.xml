@@ -29,16 +29,17 @@
         <parameters>
           DomainName = "Contoso.COM"
           DomainAdminPassword = "Password1"
-          
-          SQLSourcePath = 'T:\Tools'
-          SQLSourceFolder = 'SQL'
+
+          ToolsPath = T:\Tools
+
+          SQLSourcePath = 'T:\Tools\SQL'
           SQLInstanceName = 'MSSQLServer'
           SQLFeatures = 'SQLENGINE,SSMS,ADV_SSMS'
-          SQLSAUser = 'Contoso\SQL_SA'
-          SQLSAUserPass = 'Password1'
-          SQLSysAdminAccounts = 'Contoso\Domain Admins'
-          SQLAgtSvcAccount = 'Contoso\SQL_Agent'
-          SQLAgentUserPass = 'Password1'
+          SQLSAUser = 'Corp\SQL_SA'
+          SQLSAUserPass = 'LS1setup!'
+          SQLSysAdminAccounts = 'Corp\Domain Admins'
+          SQLAgtSvcAccount = 'Corp\SQL_Agent'
+          SQLAgentUserPass = 'LS1setup!'
 
           SCVMMInstallPath = "\SCVMM\"
           SCVMMSAUser = 'Contoso\VMM_SA'

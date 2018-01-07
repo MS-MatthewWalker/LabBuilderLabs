@@ -29,9 +29,10 @@
         <parameters>
           DomainName = "Corp.Contoso.COM"
           DomainAdminPassword = "LS1setup!"
-          
-          SQLSourcePath = 'T:\Tools'
-          SQLSourceFolder = 'SQL'
+
+          ToolsPath = T:\Tools
+
+          SQLSourcePath = 'T:\Tools\SQL'
           SQLInstanceName = 'MSSQLServer'
           SQLFeatures = 'SQLENGINE,SSMS,ADV_SSMS'
           SQLSAUser = 'Corp\SQL_SA'
