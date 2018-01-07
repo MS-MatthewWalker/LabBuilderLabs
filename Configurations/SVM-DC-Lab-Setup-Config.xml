@@ -30,7 +30,7 @@
           DomainName = "Contoso.COM"
           DomainAdminPassword = "Password1"
 
-          ToolsPath = T:\Tools
+          ToolsPath = 'T:\Tools'
 
           SQLSourcePath = 'T:\Tools\SQL'
           SQLInstanceName = 'MSSQLServer'
