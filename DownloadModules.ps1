@@ -1,4 +1,4 @@
-. .\functions.psm1
+. .\functions.ps1
 
 $Workdir=Get-ScriptDirectory
 
