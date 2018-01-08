@@ -42,6 +42,7 @@ Write-Host -NoNewLine "Press any key to continue..."
 $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 
 . .\functions.ps1
+. .\DownloadModules.ps1
 
 $Workdir=Get-ScriptDirectory
 

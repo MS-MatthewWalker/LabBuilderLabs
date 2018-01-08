@@ -265,32 +265,6 @@ Configuration LAB_DC_FORESTPRIMARY
 # VMM requirements 
         # Install prerequisites on Management Servers
         $BasePath = $Node.ToolsPath
-        $SQLServer2012NativeClient = "\Files\SQLNCli.msi"
-
-        Package "SQLServer2012NativeClient"
-        {
-            Ensure = "Present"
-            Name = "Microsoft SQL Server 2012 Native Client "
-            ProductId = "49D665A2-4C2A-476E-9AB8-FCC425F526FC"
-            Path = "$Basepath$SQLServer2012NativeClient"
-            Arguments = "IACCEPTSQLNCLILICENSETERMS=YES ALLUSERS=2"
-            Credential = $DomainAdminCredential
-            DependsOn = "[xDisk]ToolsDrive"
-        }
-
-        $SQLServer2012CommandLineUtilities = "\Files\SQLCmdLnUtils.msi"
-
-        Package "SQLServer2012CommandLineUtilities"
-        {
-            Ensure = "Present"
-            Name = "Microsoft SQL Server 2012 Command Line Utilities "
-            ProductId = "9D573E71-1077-4C7E-B4DB-4E22A5D2B48B"
-            Path = "$Basepath$SQLServer2012CommandLineUtilities"
-            Arguments = "ALLUSERS=2"
-            Credential = $DomainAdminCredential
-            DependsOn = "[Package]SQLServer2012NativeClient"
-
-        }
 
         $WindowsADK = '\Files\ADK\adksetup.exe'
 
@@ -333,7 +307,7 @@ Configuration LAB_DC_FORESTPRIMARY
         {
             DependsOn = "[xSCVMMConsoleSetup]VMMC"
             Ensure = "Present"
-            SourcePath = $Node.SQLSourcePath
+            SourcePath = $BasePath
             SourceFolder = $Node.SCVMMInstallPath
             SetupCredential = $DomainAdminCredential
             vmmService = $SCVMMSA
@@ -345,7 +319,7 @@ Configuration LAB_DC_FORESTPRIMARY
         {
             DependsOn = "[SqlSetup]SCVMMSQLDB"
             Ensure = "Present"
-            SourcePath = $Node.SQLSourcePath
+            SourcePath =  $BasePath
             SourceFolder = $Node.SCVMMInstallPath
             SetupCredential = $DomainAdminCredential
         }
