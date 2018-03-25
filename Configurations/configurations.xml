@@ -53,6 +53,20 @@
                    DomainAdminName="Contoso\Administrator"
                    DomainPassword="PowerShell5!" />
 
+    <Configuration Name="PR-SCVMM Demo Lab"
+                   HasDC="yes"
+                   DCConfigurationFile="PRSCVMM-DC-Lab-Setup-Config.xml"
+                   LabConfigFile="PRSCVMM-Lab-Setup-Config.xml" 
+                   DomainAdminName="Corp\Administrator"
+                   DomainPassword="LS1setup!"
+                   RequireSharedDisk="Yes" />
+
+    <Configuration Name="Lab VMs"
+                   HasDC="no"
+                   LabConfigFile="Lab-Base-VMs.xml" 
+                   />
+
+
 
 
 

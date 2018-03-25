@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<labbuilderconfig name="WS2016_Combo_Workshop" version="1.0">
+  <description>Lab Buildout for Windows Server 2016 MSInternal Workshop</description>
+  <settings domainname="Corp.Contoso.COM" vhdparentpath=".\Virtual Hard Disk Templates" dsclibrarypath=".\LabDSCResources" resourcepath=".\Resources" LabId="VMMWS-" modulepath=".\Modules" />
+  <resources>
+    <msu name="Win8.1AndW2K12R2-KB3191564-x64.msu" url="ResFolder/Win8.1AndW2K12R2-KB3191564-x64.msu" />
+    <msu name="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" url="ResFolder/windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu" />
+    <msu name="windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" url="ResFolder/windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu"/>
+  </resources>
+  <switches>
+    <switch name="Public1" type="Private" />
+    <switch name="SMB" type="Private" />
+    <switch name="iSCSI" type="Private" />
+    <switch name="LiveMigration" type="Private" />
+    <switch name="Cluster" type="Private" />
+  </switches>
+  <templatevhds isopath="ISOFiles" vhdpath="VHDFiles" prefix="Template-">
+    <templatevhd name="Windows Server 2016 Datacenter FULL" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Full.vhdx" edition="Windows Server 2016 SERVERDATACENTER" OSType="Server" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" features="" VHDFormat="VHDx" VHDType="Dynamic" Generation="2" vhdsize="40GB" />
+    <templatevhd name="Windows Server 2016 Datacenter CORE" iso="14393.0.161119-1705.RS1_REFRESH_SERVER_EVAL_X64FRE_EN-US.ISO" url="https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2016" vhd="Windows Server 2016 Datacenter Core.vhdx" edition="Windows Server 2016 SERVERDATACENTERCORE" OSType="Server" features="" packages="windows10.0-kb4035631-x64_59af92716539d98ed86622d6fea5a69ab90a4e76.msu,windows10.0-kb4038782-x64_5cc8dccc86516830eb0b1aa030d67f482dd05af0.msu" vhdformat="VHDx" vhdtype="Dynamic" generation="2" vhdsize="25GB" />
+  </templatevhds>
+  <templates>
+    <template name="Windows Server 2016 Datacenter FULL" vhd="Windows Server 2016 Datacenter Full.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Full.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
+    <template name="Windows Server 2016 Datacenter CORE" vhd="Windows Server 2016 Datacenter Core.vhdx" sourcevhd=".\VHDFiles\Template-Windows Server 2016 Datacenter Core.vhdx" memorystartupbytes="1GB" processorcount="1" generation="2" version="8.0" administratorpassword="LS1setup!" timezone="Pacific Standard Time" ostype="Server" />
+  </templates>
+  <vms>
+    <vm name="Compute1" template="Windows Server 2016 Datacenter FULL" computername="Compute1" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorcount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
+      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+          
+          ServerName = 'DC'
+          ServerTargetName = 'dc-virtcluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.11'
+
+          Disks = @(
+          @{ Name = 'CSVData';
+          Number = '1';
+          DriveLetter = 'T';
+          FSLabel = 'CSVData';          
+          },
+          @{ Name = 'Witness';
+          Number = '2';
+          DriveLetter = 'W';
+          FSLabel = 'Witness';          
+          }
+          )
+
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.11" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.11" SubnetMask="24" />
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+          <ipv4 address="172.18.0.11" SubnetMask="24" />
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.11" SubnetMask="24" />
+        </adapter>
+        <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.11" SubnetMask="24" />
+        </adapter>
+      </adapters>
+    </vm>
+    <vm name="Compute2" template="Windows Server 2016 Datacenter FULL" computername="Compute2" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="4GB" DynamicMemoryEnabled="Y">
+      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+          DomainName = "Corp.Contoso.COM"
+          DomainAdminPassword = "LS1setup!"
+          PSDscAllowDomainUser = $True
+          
+          ServerName = 'DC'
+          ServerTargetName = 'dc-virtcluster-target'
+          TargetPortalAddress = '172.17.0.1'
+          InitiatorPortalAddress = '172.17.0.12'
+          
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On">
+          <ipv4 address="10.0.0.12" defaultgateway="10.0.0.255" SubnetMask="24" dnsserver="10.0.0.1" />
+        </adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On">
+        </adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On">
+          <ipv4 address="192.168.0.12" SubnetMask="24" />
+        </adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On">
+          <ipv4 address="172.18.0.12" SubnetMask="24" />
+        </adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On">
+          <ipv4 address="172.16.0.12" SubnetMask="24" />
+        </adapter>
+        <adapter name="iSCSI" switchname="iSCSI" MACAddressSpoofing="On">
+          <ipv4 address="172.17.0.12" SubnetMask="24" />
+        </adapter>
+      </adapters>
+    </vm>
+    <vm name="S2D" template="Windows Server 2016 Datacenter CORE" computername="S2D" usedifferencingbootdisk="Y" ExposeVirtualizationExtensions="Y" processorCount="2" memorystartupbytes="1GB" DynamicMemoryEnabled="Y" InstanceCount="4">
+      <dsc configname="LAB_MEMBER_SERVER" configfile="LAB_MEMBER_SERVER.DSC.ps1">
+        <parameters>
+            DomainName = "Corp.Contoso.COM"
+            DomainAdminPassword = "LS1setup!"
+            PSDscAllowDomainUser = $True
+            DCName = 'DC'
+            RequestFilePath = "C:\Windows\Setup\ODJFiles\"
+        </parameters>
+      </dsc>
+      <adapters>
+        <adapter name="Public1" switchname="Public1" MACAddressSpoofing="On"></adapter>
+        <adapter name="Public2" switchname="Public1" MACAddressSpoofing="On"></adapter>
+        <adapter name="SMB" switchname="SMB" MACAddressSpoofing="On"></adapter>
+        <adapter name="LiveMigration" switchname="LiveMigration" MACAddressSpoofing="On"></adapter>
+        <adapter name="Cluster" switchname="Cluster" MACAddressSpoofing="On"></adapter>
+      </adapters>
+      <DataVHDs>
+        <DataVHD VHD="SSD1.VHDX" Size="800GB" Type="Dynamic" />
+        <DataVHD VHD="SSD2.VHDX" Size="800GB" Type="Dynamic" />
+        <DataVHD VHD="SSD3.VHDX" Size="800GB" Type="Dynamic" />
+        <DataVHD VHD="SSD4.VHDX" Size="800GB" Type="Dynamic" />
+        <DataVHD VHD="HDD1.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD2.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD3.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD4.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD5.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD6.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD7.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD8.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD9.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD10.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD11.VHDX" Size="4TB" Type="Dynamic" />
+        <DataVHD VHD="HDD12.VHDX" Size="4TB" Type="Dynamic" />
+      </DataVHDs>
+    </vm>
+  </vms>
+</labbuilderconfig>
