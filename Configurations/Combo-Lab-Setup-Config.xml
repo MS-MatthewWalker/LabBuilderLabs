@@ -199,8 +199,6 @@
             DomainName = "Corp.Contoso.COM"
             DomainAdminPassword = "LS1setup!"
             PSDscAllowDomainUser = $True
-            DCName = 'DC'
-            RequestFilePath = "C:\Windows\Setup\ODJFiles\"
         </parameters>
       </dsc>
       <adapters>
